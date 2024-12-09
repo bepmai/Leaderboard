@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard Dashboard</title>
+    <link rel="stylesheet" href="./assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2><i class="fas fa-star"></i> LeaderBoard</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active"><i class="fas fa-chart-pie"></i> Trang chủ</a></li>
+                    <li><a href="#"><i class="fas fa-calendar-check"></i> Điểm danh & Điểm phát biểu</a></li>
+                    <li><a href="#"><i class="fas fa-project-diagram"></i> Điểm project</a></li>
+                    <li><a href="#"><i class="fas fa-trophy"></i> Bảng xếp hạng</a></li>
+                    <li><a href="#"><i class="fas fa-user"></i> Thông tin cá nhân</a></li>
+                </ul>
+            </nav>
+            <button class="upgrade-btn">
+                <i class="fas fa-heart"></i> Nhóm 1, Cụm 1
+            </button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <!-- Breadcrumb (Pages / Dashboard) -->
+                <div class="breadcrumb">
+                    <span class="current">Trang chủ</span>
+                </div>
+
+                <!-- Actions (Search, Sign In, Settings, Notifications) -->
+                <div class="actions">
+                    <!-- Search box -->
+                    <input type="text" placeholder="Tìm kiếm..." class="search-box">
+
+                    <!-- Settings Button -->
+                    <button class="action-button">
+                        <i class="fas fa-cog"></i>
+                    </button>
+
+                    <!-- Notifications Button -->
+                    <button class="action-button">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                </div>
+            </header>
+
+            <section class="overview">
+                <div class="overview-card">
+                    <i class="fas fa-user-graduate"></i>
+                    <div>
+                        <p>Số buổi học</p>
+                        <h3>30 buổi</h3>
+                        <span class="positive">+10% so với tuần trước</span>
+                    </div>
+                </div>
+                <div class="overview-card">
+                    <i class="fas fa-calendar-times"></i>
+                    <div>
+                        <p>Số buổi nghỉ</p>
+                        <h3>5 buổi</h3>
+                        <span class="negative">+5% so với tháng trước</span>
+                    </div>
+                </div>
+                <div class="overview-card">
+                    <i class="fas fa-microphone"></i>
+                    <div>
+                        <p>Số lần phát biểu</p>
+                        <h3>15 lần</h3>
+                        <span class="positive">+20% so với ngày hôm qua</span>
+                    </div>
+                </div>
+                <div class="overview-card">
+                    <i class="fas fa-trophy"></i>
+                    <div>
+                        <p>Thứ hạng hiện tại</p>
+                        <h3>Thứ 1</h3>
+                        <span class="positive">+20% so với ngày hôm qua</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="charts">
+                <div class="chart-card">
+                    <h3>Số buổi đi học</h3>
+                    <canvas id="chartAttendance"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Số buổi nghỉ</h3>
+                    <canvas id="chartAbsences"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Số lần phát biểu</h3>
+                    <canvas id="chartParticipation"></canvas>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="./assets/js/dashboard.js"></script>
+</body>
+</html>

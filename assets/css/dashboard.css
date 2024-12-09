@@ -1,0 +1,271 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f6fa;
+    display: flex;
+    height: 100vh;
+    border-radius: 10px;
+}
+
+.dashboard-container {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    width: 300px;
+    background-color: #3C3C43;
+    color: #fff;
+    padding: 10px; /* Giảm padding để đẩy nội dung lên */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Đảm bảo nội dung ở phía trên */
+    gap: 10px; /* Khoảng cách giữa các phần tử */
+    border-radius: 10px;
+}
+
+.logo {
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px; /* Giảm khoảng cách dưới logo */
+}
+.logo h2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Khoảng cách giữa icon và chữ */
+    font-size: 20px;
+    color: white;
+    position: relative;
+}
+
+.logo h2::after {
+    content: "";
+    display: block;
+    height: 0.5px; /* Độ dày của kẻ ngang */
+    background-color: white; /* Màu của kẻ ngang */
+    width: 100%; /* Chiều rộng kẻ ngang */
+    position: absolute;
+    bottom: -10px; /* Khoảng cách từ chữ xuống kẻ ngang */
+    left: 0;
+}
+
+.logo i {
+    font-size: 18px; /* Kích thước icon */
+    color: white; /* Màu sắc icon */
+}
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px; /* Thêm khoảng cách với logo */
+}
+
+nav ul li {
+    margin: 10px 0; /* Giảm khoảng cách giữa các mục */
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    transition: background 0.3s;
+}
+
+nav ul li a.active, nav ul li a:hover {
+    background: #e73673;
+    border-radius: 8px;
+}
+
+.upgrade-btn {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Khoảng cách giữa icon và chữ */
+    transition: background-color 0.3s;
+    margin-top: auto;
+}
+
+.upgrade-btn i {
+    font-size: 16px; /* Kích thước icon trái tim */
+    color: #fff; /* Màu trắng cho icon */
+}
+
+.upgrade-btn:hover {
+    background-color: #c0392b; /* Màu khi hover */
+}
+
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    margin: 0;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    
+}
+
+.search input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Breadcrumb */
+
+
+.breadcrumb .current {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Actions (search box and buttons) */
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-box {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    outline: none;
+    width: 200px;
+}
+
+.action-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #555;
+}
+
+.action-button i {
+    margin-right: 5px;
+    font-size: 16px;
+}
+
+.action-button:hover {
+    background-color: #f0f0f0;
+}
+
+
+.user-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.overview {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.overview-card {
+    flex: 1;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: #fff; /* Nền trắng cho tất cả các card */
+    color: #333; /* Màu chữ mặc định */
+}
+
+.overview-card i {
+    font-size: 30px;
+}
+
+/* Màu sắc riêng cho icon trong từng card */
+.overview-card:nth-child(1) i {
+    color: #3498db; /* Xanh dương */
+}
+
+.overview-card:nth-child(2) i {
+    color: #e74c3c; /* Đỏ */
+}
+
+.overview-card:nth-child(3) i {
+    color: #2ecc71; /* Xanh lá */
+}
+
+.overview-card p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.overview-card h3 {
+    margin: 5px 0 10px;
+    font-size: 20px;
+    color: #000;
+}
+
+.overview-card .positive {
+    color: #2ecc71; /* Xanh lá */
+    font-size: 12px;
+}
+
+.overview-card .negative {
+    color: #e74c3c; /* Đỏ */
+    font-size: 12px;
+}
+
+
+.charts {
+    display: flex;
+    gap: 20px;
+}
+
+.chart-card {
+    flex: 1;
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
