@@ -1,10 +1,15 @@
-from flask import Blueprint, request, jsonify
+from werkzeug.security import generate_password_hash, check_password_hash
 import requests
+from flask import jsonify
+import sqlite3
 
-gpa_bp = Blueprint('gpa', __name__)
+# Kết nối đến cơ sở dữ liệu SQLite
+def get_db_connection():
+    connection = sqlite3.connect('database.db')
+    connection.row_factory = sqlite3.Row
+    return connection
 
-@gpa_bp.route('/get', methods=['GET'])
-def getGPA():
+def get_gpa(request):
     try:
         token = request.headers.get('Authorization')
         if not token:
