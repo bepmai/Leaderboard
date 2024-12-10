@@ -6,7 +6,7 @@ import requests
 score_board_URL = "https://sheetdb.io/api/v1/ma8opp1ci2oqd"
 
 def get_db_connection():
-    connection = sqlite3.connect('database.db')
+    connection = sqlite3.connect('./database/database.db')
     connection.row_factory = sqlite3.Row
     return connection
 

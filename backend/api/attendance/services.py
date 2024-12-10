@@ -6,7 +6,7 @@ import requests
 attendance_URL = "https://sheetdb.io/api/v1/tgpag8379teow"
 
 def get_db_connection():
-    connection = sqlite3.connect('database.db')
+    connection = sqlite3.connect('./database/database.db')
     connection.row_factory = sqlite3.Row
     return connection
 
