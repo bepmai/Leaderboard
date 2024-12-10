@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <title>Điểm dự án</title>
+    <title>Rank</title>
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons+Round"
       rel="stylesheet"
@@ -38,9 +38,8 @@
               <li><a href="dashboard.html"><i class="fas fa-chart-pie"></i> Trang chủ</a></li>
               <li><a href="attendance-user.html"><i class="fa-solid fa-check-square"></i> Điểm danh</a></li>
               <li><a href="attendance-points-admin.html"><i class="fas fa-calendar-check"></i> Điểm danh & Điểm phát biểu</a></li>
-              <li><a href="project-grading-admin.html"  class="active"><i class="fas fa-project-diagram"></i> Điểm project</a></li>
-              <li><a href="#"><i class="fas fa-trophy"></i> Bảng xếp hạng</a></li>
-              <li><a href="#"><i class="fas fa-user"></i> Thông tin cá nhân</a></li>
+              <li><a href="Ranking.html"><i class="fas fa-trophy"></i> Bảng xếp hạng</a></li>
+              <li><a href="profile.html"><i class="fas fa-user"></i> Thông tin cá nhân</a></li>
           </ul>
       </nav>
       <button class="upgrade-btn">
@@ -54,7 +53,7 @@
       <header class="header">
         <!-- Breadcrumb (Pages / Dashboard) -->
         <div class="breadcrumb">
-          <span class="current">Điểm dự án</span>
+          <span class="current">Bảng xếp hạng</span>
         </div>
         <!-- Actions (Search, Sign In, Settings, Notifications) -->
         <div class="actions">
@@ -83,7 +82,7 @@
                   class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3"
                 >
                   <h6 class="text-white text-capitalize ps-3">
-                    Hệ thống phân nhóm
+                    Xếp hạng thành viên
                   </h6>
                 </div>
               </div>
@@ -92,229 +91,108 @@
                   <table class="table align-items-center mb-0 text-center">
                     <thead>
                       <tr style="color: black; font-size: smaller;"  class="text-center">
-                        <th>STT</th>
-                        <th>MSV</th>
-                        <th>Tên sinh viên</th>
-                        <th>Điểm</th>
+                        <th>Thứ hạng</th>
+                        <th>Họ & Tên</th>
+                        <th>Điểm danh</th>
+                        <th>Điểm phát biểu</th>
+                        <th>Điểm dự án</th>
                         <th>Ghi chú</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td>1</td>
-                        <td><h6 class="text-sm">2151163664</h6></td>
+                        <td class="Stt"><i style="color: gold;" class="fas fa-trophy trophy-icon gold" ></i></td>
+                        <td><h6 class="text-sm">Nguyễn Đức Anh</h6></td>
                         <td>
                           <div class="d-flex px-2 py-1">
                             <div>
                               <i class="material-icons" style="color: #ec407a"
-                                >person</i
+                                ></i
                               >
                             </div>
                             <div class="d-flex">
-                              <h6 class="text-sm ms-2">Nguyễn Đức Anh</h6>
+                              <h6 class="text-sm ms-2"></h6>
                             </div>
                           </div>
                         </td>
-                        <td>10/10</td>
+                        <td>...</td>
+                        <td>...</td>
                         <td>...</td>
                       </tr>
                       <tr>
-                        <td>2</td>
-                        <td class="text-sm"><h6 class="text-sm">2151163689</h6></td>
+                        <td class="Stt"><i style="color: silver;" class="fas fa-trophy trophy-icon silver"></i></td>
+                        <td class="text-sm"><h6 class="text-sm">Triệu Thị Hậu</h6></td>
                         <td>
                           <div class="d-flex px-2 py-1">
                             <div>
                               <i class="material-icons" style="color: #ec407a"
-                                >person</i
+                                ></i
                               >
                             </div>
                             <div class="d-flex">
-                              <h6 class="text-sm ms-2">Triệu Thị Hậu</h6>
+                              <h6 class="text-sm ms-2"></h6>
                             </div>
                           </div>
                         </td>
-                        <td>10/10</td>
+                        <td>...</td>
+                        <td>...</td>
                         <td>...</td>
                       </tr>
                       <tr>
-                        <td>3</td>
-                        <td class="text-sm"><h6 class="text-sm">2151160519</h6></td>
+                        <td class="Stt"><i style="color:#cd7f32;" class="fas fa-trophy trophy-icon bronze"></i></td>
+                        <td class="text-sm"><h6 class="text-sm">Nguyễn Phương Mai</h6></td>
                         <td>
                           <div class="d-flex px-2 py-1">
                             <div>
                               <i class="material-icons" style="color: #ec407a"
-                                >person</i
+                                ></i
                               >
                             </div>
                             <div class="d-flex">
-                              <h6 class="text-sm ms-2">Nguyễn Phương Mai</h6>
+                              <h6 class="text-sm ms-2"></h6>
                             </div>
                           </div>
                         </td>
-                        <td>10/10</td>
                         <td>...</td>
-                      </tr>
-                      <tr>
-                        <td>4</td>
-                        <td class="text-sm"><h6 class="text-sm">2151163709</h6></td>
-                        <td>
-                          <div class="d-flex px-2 py-1">
-                            <div>
-                              <i class="material-icons" style="color: #ec407a"
-                                >person</i
-                              >
-                            </div>
-                            <div class="d-flex">
-                              <h6 class="text-sm ms-2">Nguyễn Tuấn Ngọc</h6>
-                            </div>
-                          </div>
-                        </td>
-                        <td>10/10</td>
                         <td>...</td>
-                      </tr>
-                      <tr>
-                        <td>5</td>
-                        <td class="text-sm"><h6 class="text-sm">2151163724</h6></td>
-                        <td>
-                          <div class="d-flex px-2 py-1">
-                            <div>
-                              <i class="material-icons" style="color: #ec407a"
-                                >person</i
-                              >
-                            </div>
-                            <div class="d-flex">
-                              <h6 class="text-sm ms-2">Lê Quang Thanh</h6>
-                            </div>
-                          </div>
-                        </td>
-                        <td>10/10</td>
-                        <td>...</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Bang02 -->
-      <div class="container-fluid py-4">
-        <div class="row">
-          <div class="col-12">
-            <div class="card my-4">
-              <div
-                class="card-header p-0 position-relative mt-n4 mx-3 z-index-2"
-              >
-                <div
-                  class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3"
-                >
-                  <h6 class="text-white text-capitalize ps-3">
-                    Hệ thống ...
-                  </h6>
-                </div>
-              </div>
-              <div class="card-body px-0 pb-2">
-                <div class="table-responsive p-0">
-                  <table class="table align-items-center mb-0 text-center">
-                    <thead>
-                      <tr style="color: black; font-size: smaller;"  class="text-center">
-                        <th>STT</th>
-                        <th>MSV</th>
-                        <th>Tên sinh viên</th>
-                        <th>Điểm</th>
-                        <th>Ghi chú</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td><h6 class="text-sm">2151163664</h6></td>
-                        <td>
-                          <div class="d-flex px-2 py-1">
-                            <div>
-                              <i class="material-icons" style="color: #ec407a"
-                                >person</i
-                              >
-                            </div>
-                            <div class="d-flex">
-                              <h6 class="text-sm ms-2">Nguyễn Đức Anh</h6>
-                            </div>
-                          </div>
-                        </td>
-                        <td>0/10</td>
-                        <td>...</td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td class="text-sm"><h6 class="text-sm">2151163689</h6></td>
-                        <td>
-                          <div class="d-flex px-2 py-1">
-                            <div>
-                              <i class="material-icons" style="color: #ec407a"
-                                >person</i
-                              >
-                            </div>
-                            <div class="d-flex">
-                              <h6 class="text-sm ms-2">Triệu Thị Hậu</h6>
-                            </div>
-                          </div>
-                        </td>
-                        <td>0/10</td>
-                        <td>...</td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td class="text-sm"><h6 class="text-sm">2151160519</h6></td>
-                        <td>
-                          <div class="d-flex px-2 py-1">
-                            <div>
-                              <i class="material-icons" style="color: #ec407a"
-                                >person</i
-                              >
-                            </div>
-                            <div class="d-flex">
-                              <h6 class="text-sm ms-2">Nguyễn Phương Mai</h6>
-                            </div>
-                          </div>
-                        </td>
-                        <td>0/10</td>
                         <td>...</td>
                       </tr>
                       <tr>
                         <td>4</td>
-                        <td class="text-sm"><h6 class="text-sm">2151163709</h6></td>
+                        <td class="text-sm"><h6 class="text-sm">Nguyễn Tuấn Ngọc</h6></td>
                         <td>
                           <div class="d-flex px-2 py-1">
                             <div>
                               <i class="material-icons" style="color: #ec407a"
-                                >person</i
+                                ></i
                               >
                             </div>
                             <div class="d-flex">
-                              <h6 class="text-sm ms-2">Nguyễn Tuấn Ngọc</h6>
+                              <h6 class="text-sm ms-2"></h6>
                             </div>
                           </div>
                         </td>
-                        <td>0/10</td>
+                        <td>...</td>
+                        <td>...</td>
                         <td>...</td>
                       </tr>
                       <tr>
                         <td>5</td>
-                        <td class="text-sm"><h6 class="text-sm">2151163724</h6></td>
+                        <td class="text-sm"><h6 class="text-sm">Lê Quang Thanh</h6></td>
                         <td>
                           <div class="d-flex px-2 py-1">
                             <div>
                               <i class="material-icons" style="color: #ec407a"
-                                >person</i
+                                ></i
                               >
                             </div>
                             <div class="d-flex">
-                              <h6 class="text-sm ms-2">Lê Quang Thanh</h6>
+                              <h6 class="text-sm ms-2"></h6>
                             </div>
                           </div>
                         </td>
-                        <td>0/10</td>
+                        <td>...</td>
+                        <td>...</td>
                         <td>...</td>
                       </tr>
                     </tbody>
