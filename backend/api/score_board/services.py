@@ -28,9 +28,9 @@ def get_score_board_admin():
         # connection.commit()
         # connection.close()
 
-        return render_template('../pages/score-board.html',data = data) 
+        return render_template('score-board.html',data = data) 
     else:
-        return render_template('../pages/score-board.html',data = None,message = f"Yêu cầu thất bại: {response.status_code}")
+        return render_template('pages/score-board.html',data = None,message = f"Yêu cầu thất bại: {response.status_code}")
     
 def get_score_board_users(id):
     response = requests.get(score_board_URL)
