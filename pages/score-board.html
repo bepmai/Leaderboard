@@ -6,7 +6,8 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <title>Thông tin cá nhân</title>
+    <title>Điểm phát biểu</title>
+    <!-- Material Icons -->
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons+Round"
       rel="stylesheet"
@@ -37,9 +38,9 @@
         <ul>
           <li><a href="dashboard.html"><i class="fas fa-chart-pie"></i> Trang chủ</a></li>
           <li><a href="attendance.html"><i class="fa-solid fa-check-square"></i> Điểm danh</a></li>
-          <li><a href="score-board.html"><i class="fas fa-calendar-check"></i>Điểm phát biểu</a></li>
+          <li><a href="score-board.html" class="action"><i class="fas fa-calendar-check"></i>Điểm phát biểu</a></li>
           <li><a href="Ranking.html"><i class="fas fa-trophy"></i> Bảng xếp hạng</a></li>
-          <li><a href="profile.html" class="active"><i class="fas fa-user"></i> Thông tin cá nhân</a></li>
+          <li><a href="profile.html"><i class="fas fa-user"></i> Thông tin cá nhân</a></li>
         </ul>
       </nav>
       <button class="upgrade-btn">
@@ -49,73 +50,60 @@
     <main
       class="main-content position-relative max-height-vh-100 h-100 border-radius-lg"
     >
-      <!-- Navbar -->
-      <header class="header">
-        <h6>Thông tin cá nhân</h6>
-        <div class="actions">
-          <input type="text" placeholder="Tìm kiếm..." class="search-box">
-          <button class="action-button">
-            <i class="fas fa-bell"></i>
-          </button>
-          <a href="sign-in.html" class="action-button">
-            <i class="fa-solid fa-right-from-bracket" style="color: #e74c3c;"></i>
-          </a>
+    <header class="header">
+      <h6>Điểm phát biểu</h6>
+      <div class="actions">
+        <input type="text" placeholder="Tìm kiếm..." class="search-box">
+        <button class="action-button">
+          <i class="fas fa-bell"></i>
+        </button>
+        <a href="sign-in.html" class="action-button">
+          <i class="fa-solid fa-right-from-bracket" style="color: #e74c3c;"></i>
+        </a>
+      </div>
+    </header>
+      <!-- Bang -->
+      <div class="container-fluid py-4">
+        <div class="row">
+          <div class="col-12">
+            <div class="card my-4">
+              <div
+                class="card-header p-0 position-relative mt-n4 mx-3 z-index-2"
+              >
+                <div
+                  class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3"
+                >
+                  <h6 class="text-white text-capitalize ps-3">
+                    Chi tiết điểm phát biểu
+                  </h6>
+                </div>
+              </div>
+              <div class="card-body px-0 pb-2">
+                <div class="table-responsive p-0">
+                  <table class="table align-items-center mb-0 text-center">
+                    <thead>
+                      <tr style="color: black; font-size: smaller;"  class="text-center">
+                        <th>STT</th>
+                        <th>MSV</th>
+                        <th>Họ Tên</th>
+                        <th>Lớp</th>
+                        <th>Lên bảng</th>
+                        <th>Mindmap tổng hợp</th>
+                        <th>Code hệ thống</th>
+                        <th>Tổng</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!--  -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </header>
-      <!-- End Navbar -->
-       <style>
-        .profile-header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            border-bottom: 2px solid #ff69b4; /* Màu hồng */
-        }
-        
-        .profile-header img {
-            border-radius: 50%;
-            width: 150px;
-            height: 150px;
-            border: 3px solid #ff69b4; /* Màu hồng */
-        }
-        
-        .profile-header h1 {
-            margin: 10px 0 5px;
-            color: #343a40; /* Màu chữ tối */
-        }
-        
-        .profile-details {
-            line-height: 1.8;
-        }
-        
-        .profile-details h2 {
-            color: #ff69b4; /* Màu hồng */
-            margin-bottom: 15px;
-        }
-        
-        .profile-details p {
-            background: #f8f9fa; /* Màu nền nhẹ */
-            padding: 10px;
-            border-radius: 5px;
-            margin: 5px 0;
-        }
-       </style>
-      <div class="container">
-        <div class="profile-header">
-            <img src="https://via.placeholder.com/150" alt="Avatar">
-            <h1>Nguyễn Đức Anh</h1>
-            
-        </div>
-        <div class="profile-details">
-            <h2>Thông tin cá nhân</h2>
-            <p><strong>Mã sinh viên:</strong> SV123456</p>
-            <p><strong>Số điện thoại:</strong> 123-456-7890</p>
-            <p><strong>Lớp:</strong> 63HTTT1</p>
-            <p><strong>Ngày sinh:</strong> 01/01/2003</p>
-            <p><strong>Năm sinh:</strong> 2003</p>
-            <p><strong>Giới tính:</strong> Nam</p>
-            <p><strong>Điểm GPA:</strong> 4.0</p>
-        </div>
-    </div>
+      </div>
+    </main>
     <!--   Core JS Files   -->
     <script src="../assets/js/core/popper.min.js"></script>
     <script src="../assets/js/core/bootstrap.min.js"></script>
