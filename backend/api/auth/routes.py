@@ -9,5 +9,3 @@ def login_route():
 @auth_bp.route('/logout', methods=['POST'])
 def logout_route():
     return logout(request)
-
-

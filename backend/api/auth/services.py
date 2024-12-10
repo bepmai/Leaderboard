@@ -5,7 +5,7 @@ import sqlite3
 
 # Kết nối đến cơ sở dữ liệu SQLite
 def get_db_connection():
-    connection = sqlite3.connect('../../database/database.db')
+    connection = sqlite3.connect('./database/database.db')
     connection.row_factory = sqlite3.Row
     return connection
 
@@ -52,7 +52,7 @@ def login(request):
                 cursor.execute(query, (username, hashed_password, access_token, role, state))
 
             connection.commit()
-
+            connection.close()
             return jsonify({
                 "message": "Login successful, data saved!",
                 "data": token_data,
@@ -79,8 +79,6 @@ def login(request):
 
     except sqlite3.Error as e:
         return jsonify({"message": f"Database error: {e}"}), 500
-    finally:
-        connection.close()
 
 # Đăng xuất
 def logout(request):
