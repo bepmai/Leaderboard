@@ -6,8 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <title>Điểm danh và Điểm phát biểu</title>
-    <!-- Material Icons -->
+    <title>Rank</title>
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons+Round"
       rel="stylesheet"
@@ -31,14 +30,14 @@
 
   <body class="g-sidenav-show bg-gray-200">
     <aside class="sidebar">
-      <div class="logo ms-2">
+      <div class="logo">
           <h2><i class="fas fa-star"></i> LeaderBoard</h2>
       </div>
       <nav>
           <ul>
               <li><a href="dashboard.html"><i class="fas fa-chart-pie"></i> Trang chủ</a></li>
               <li><a href="attendance-user.html"><i class="fa-solid fa-check-square"></i> Điểm danh</a></li>
-              <li><a href="attendance-points-admin.html"  class="active"><i class="fas fa-calendar-check"></i> Điểm danh & Điểm phát biểu</a></li>
+              <li><a href="attendance-points-admin.html"><i class="fas fa-calendar-check"></i> Điểm danh & Điểm phát biểu</a></li>
               <li><a href="Ranking.html"><i class="fas fa-trophy"></i> Bảng xếp hạng</a></li>
               <li><a href="profile.html"><i class="fas fa-user"></i> Thông tin cá nhân</a></li>
           </ul>
@@ -50,21 +49,28 @@
     <main
       class="main-content position-relative max-height-vh-100 h-100 border-radius-lg"
     >
-    <header class="header">
-      <!-- Breadcrumb (Pages / Dashboard) -->
-      <h6>Điểm danh & Điểm phát biểu</h6>
-      <!-- Actions (Search, Sign In, Settings, Notifications) -->
-      <div class="actions">
-        <input type="text" placeholder="Tìm kiếm..." class="search-box">
-        <button class="action-button">
-          <i class="fas fa-bell"></i>
-        </button>
-        <a href="sign-in.html" class="action-button">
-          <i class="fa-solid fa-right-from-bracket" style="color: #e74c3c;"></i>
-        </a>
-      </div>
-    </header>
-      <!-- Bang -->
+      <!-- Navbar -->
+      <header class="header">
+        <!-- Breadcrumb (Pages / Dashboard) -->
+        <div class="breadcrumb">
+          <span class="current">Bảng xếp hạng</span>
+        </div>
+        <!-- Actions (Search, Sign In, Settings, Notifications) -->
+        <div class="actions">
+          <!-- Search box -->
+          <input type="text" placeholder="Tìm kiếm..." class="search-box">
+        <!-- Settings Button -->
+          <button class="action-button">
+            <i class="fas fa-cog"></i>
+          </button>
+        <!-- Notifications Button -->
+          <button class="action-button">
+            <i class="fas fa-bell"></i>
+          </button>
+        </div>
+      </header>
+      <!-- End Navbar -->
+      <!-- Bang01 -->
       <div class="container-fluid py-4">
         <div class="row">
           <div class="col-12">
@@ -76,7 +82,7 @@
                   class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3"
                 >
                   <h6 class="text-white text-capitalize ps-3">
-                    Chi tiết điểm danh và điểm phát biểu
+                    Xếp hạng thành viên
                   </h6>
                 </div>
               </div>
@@ -84,153 +90,110 @@
                 <div class="table-responsive p-0">
                   <table class="table align-items-center mb-0 text-center">
                     <thead>
-                      <tr class="text-secondary text-xxs font-weight-bolder">
-                        <th class=""></th>
-                        <th class=""></th>
-                        <th class=""></th>
-                        <th>1</th>
-                        <th>2</th>
-                        <th>3</th>
-                        <th>4</th>
-                        <th>5</th>
-                        <th>6</th>
-                        <th>7</th>
-                        <th>8</th>
-                        <th>9</th>
-                        <th>10</th>
-                        <th>11</th>
-                        <th>12</th>
-                        <th>13</th>
-                        <th>14</th>
-                        <th>15</th>
-                        <th class=""></th>
-                        <th class=""></th>
-                        <th class=""></th>
-                      </tr>
                       <tr style="color: black; font-size: smaller;"  class="text-center">
-                        <th>STT</th>
-                        <th>MSV</th>
-                        <th>Tên</th>
-                        <th>12/11/24</th>
-                        <th>15/11/24</th>
-                        <th>19/11/24</th>
-                        <th>22/11/24</th>
-                        <th>26/11/24</th>
-                        <th>29/11/24</th>
-                        <th>03/12/24</th>
-                        <th>06/12/24</th>
-                        <th>00/00/00</th>
-                        <th>00/00/00</th>
-                        <th>00/00/00</th>
-                        <th>00/00/00</th>
-                        <th>00/00/00</th>
-                        <th>00/00/00</th>
-                        <th>00/00/00</th>
-                        <th>Vắng</th>
+                        <th>Thứ hạng</th>
+                        <th>Họ & Tên</th>
+                        <th>Điểm danh</th>
+                        <th>Điểm phát biểu</th>
+                        <th>Điểm dự án</th>
                         <th>Ghi chú</th>
-                        <th>Phát biểu</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td>1</td>
-                        <td><h6 class="text-sm">2151163664</h6></td>
+                        <td class="Stt"><i style="color: gold;" class="fas fa-trophy trophy-icon gold" ></i></td>
+                        <td><h6 class="text-sm">Nguyễn Đức Anh</h6></td>
                         <td>
                           <div class="d-flex px-2 py-1">
                             <div>
                               <i class="material-icons" style="color: #ec407a"
-                                >person</i
+                                ></i
                               >
                             </div>
                             <div class="d-flex">
-                              <h6 class="text-sm ms-2">Nguyễn Đức Anh</h6>
+                              <h6 class="text-sm ms-2"></h6>
                             </div>
                           </div>
                         </td>
-                        <td>v</td>
-                        <td>x</td>
-                        <td>x</td>
-                        <td>x</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
                       </tr>
                       <tr>
-                        <td>2</td>
-                        <td class="text-sm"><h6 class="text-sm">2151163689</h6></td>
+                        <td class="Stt"><i style="color: silver;" class="fas fa-trophy trophy-icon silver"></i></td>
+                        <td class="text-sm"><h6 class="text-sm">Triệu Thị Hậu</h6></td>
                         <td>
                           <div class="d-flex px-2 py-1">
                             <div>
                               <i class="material-icons" style="color: #ec407a"
-                                >person</i
+                                ></i
                               >
                             </div>
                             <div class="d-flex">
-                              <h6 class="text-sm ms-2">Triệu Thị Hậu</h6>
+                              <h6 class="text-sm ms-2"></h6>
                             </div>
                           </div>
                         </td>
-                        <td>x</td>
-                        <td>x</td>
-                        <td>x</td>
-                        <td>x</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
                       </tr>
                       <tr>
-                        <td>3</td>
-                        <td class="text-sm"><h6 class="text-sm">2151160519</h6></td>
+                        <td class="Stt"><i style="color:#cd7f32;" class="fas fa-trophy trophy-icon bronze"></i></td>
+                        <td class="text-sm"><h6 class="text-sm">Nguyễn Phương Mai</h6></td>
                         <td>
                           <div class="d-flex px-2 py-1">
                             <div>
                               <i class="material-icons" style="color: #ec407a"
-                                >person</i
+                                ></i
                               >
                             </div>
                             <div class="d-flex">
-                              <h6 class="text-sm ms-2">Nguyễn Phương Mai</h6>
+                              <h6 class="text-sm ms-2"></h6>
                             </div>
                           </div>
                         </td>
-                        <td>x</td>
-                        <td>x</td>
-                        <td>x</td>
-                        <td>x</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
                       </tr>
                       <tr>
                         <td>4</td>
-                        <td class="text-sm"><h6 class="text-sm">2151163709</h6></td>
+                        <td class="text-sm"><h6 class="text-sm">Nguyễn Tuấn Ngọc</h6></td>
                         <td>
                           <div class="d-flex px-2 py-1">
                             <div>
                               <i class="material-icons" style="color: #ec407a"
-                                >person</i
+                                ></i
                               >
                             </div>
                             <div class="d-flex">
-                              <h6 class="text-sm ms-2">Nguyễn Tuấn Ngọc</h6>
+                              <h6 class="text-sm ms-2"></h6>
                             </div>
                           </div>
                         </td>
-                        <td>x</td>
-                        <td>x</td>
-                        <td>x</td>
-                        <td>x</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
                       </tr>
                       <tr>
                         <td>5</td>
-                        <td class="text-sm"><h6 class="text-sm">2151163724</h6></td>
+                        <td class="text-sm"><h6 class="text-sm">Lê Quang Thanh</h6></td>
                         <td>
                           <div class="d-flex px-2 py-1">
                             <div>
                               <i class="material-icons" style="color: #ec407a"
-                                >person</i
+                                ></i
                               >
                             </div>
                             <div class="d-flex">
-                              <h6 class="text-sm ms-2">Lê Quang Thanh</h6>
+                              <h6 class="text-sm ms-2"></h6>
                             </div>
                           </div>
                         </td>
-                        <td>x</td>
-                        <td>x</td>
-                        <td>x</td>
-                        <td>x</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
                       </tr>
                     </tbody>
                   </table>
