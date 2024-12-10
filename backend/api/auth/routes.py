@@ -10,10 +10,4 @@ def login_route():
 def logout_route():
     return logout(request)
 
-@auth_bp.route('/getGPA', methods=['GET'])
-def get_gpa_route():
-    return get_gpa(request)
 
-@auth_bp.route("/helloworld",methods=['GET'])
-def helloworldl():
-    return "hello world!"
