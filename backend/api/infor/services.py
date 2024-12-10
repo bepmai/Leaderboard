@@ -5,7 +5,7 @@ import sqlite3
 
 # Kết nối đến cơ sở dữ liệu SQLite
 def get_db_connection():
-    connection = sqlite3.connect('database.db')
+    connection = sqlite3.connect('../../database/database.db')
     connection.row_factory = sqlite3.Row
     return connection
 
