@@ -1,7 +1,7 @@
 import requests
 
 # URL API của SheetDB
-SHEETDB_URL = "https://sheetdb.io/api/v1/i1u4fa5bv8sk5"
+SHEETDB_URL = "https://sheetdb.io/api/v1/ma8opp1ci2oqd"
 
 # Gửi yêu cầu GET để lấy dữ liệu
 response = requests.get(SHEETDB_URL)
