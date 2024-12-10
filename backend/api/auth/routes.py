@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from .services import login, logout, get_gpa
+from .services import login, logout
 from . import auth_bp
 
 @auth_bp.route('/login', methods=['POST'])
