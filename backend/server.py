@@ -7,12 +7,12 @@ app = Flask(__name__)
 @app.route('/') 
 @app.route('/home') 
 def index(): 
-    return render_template('index.html') 
+    return render_template('../pages/dashboard.html') 
   
   
-connect = sqlite3.connect('database.db') 
-connect.execute( 
-    'CREATE TABLE IF NOT EXISTS PARTICIPANTS (name TEXT,email TEXT, city TEXT, country TEXT, phone TEXT)') 
+# connect = sqlite3.connect('database/database.db') 
+# connect.execute( 
+#     'CREATE TABLE IF NOT EXISTS PARTICIPANTS (name TEXT,email TEXT, city TEXT, country TEXT, phone TEXT)') 
   
   
 @app.route('/join', methods=['GET', 'POST']) 
@@ -24,7 +24,7 @@ def join():
         country = request.form['country'] 
         phone = request.form['phone'] 
   
-        with sqlite3.connect("database.db") as users: 
+        with sqlite3.connect("database/database.db") as users: 
             cursor = users.cursor() 
             cursor.execute("INSERT INTO PARTICIPANTS (name,email,city,country,phone) VALUES (?,?,?,?,?)", 
                            (name, email, city, country, phone)) 
@@ -36,7 +36,7 @@ def join():
   
 @app.route('/participants') 
 def participants(): 
-    connect = sqlite3.connect('database.db') 
+    connect = sqlite3.connect('database/database.db') 
     cursor = connect.cursor() 
     cursor.execute('SELECT * FROM PARTICIPANTS') 
   
