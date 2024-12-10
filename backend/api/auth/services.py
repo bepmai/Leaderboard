@@ -1,21 +1,16 @@
-from flask import Flask, request, jsonify
-import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 import requests
-import ssl
+from flask import jsonify
+import sqlite3
 
-app = Flask(__name__)
-
-# ssl_context = ssl.create_default_context()
-
+# Kết nối đến cơ sở dữ liệu SQLite
 def get_db_connection():
     connection = sqlite3.connect('database.db')
     connection.row_factory = sqlite3.Row
     return connection
 
 # Đăng nhập
-@app.route('/login', methods=['POST'])
-def login():
+def login(request):
     try:
         data = request.json
         username = data.get('username')
@@ -87,8 +82,8 @@ def login():
     finally:
         connection.close()
 
-@app.route('/logout', methods=['POST'])
-def logout():
+# Đăng xuất
+def logout(request):
     try:
         data = request.json
         username = data.get('username')
@@ -106,8 +101,8 @@ def logout():
     finally:
         connection.close()
 
-@app.route('/getGPA', methods=['GET'])
-def getGPA():
+# Lấy GPA
+def get_gpa(request):
     try:
         token = request.headers.get('Authorization')
         if not token:
@@ -129,6 +124,3 @@ def getGPA():
 
     except requests.RequestException as e:
         return jsonify({"message": f"Error occurred: {e}"}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True)
