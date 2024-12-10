@@ -2,14 +2,18 @@ from flask import Flask, request, jsonify
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 import requests
-import os
-
-
-
 import ssl
-ssl_context = ssl.create_default_context()
 
-# Controller Functions
+app = Flask(__name__)
+
+# ssl_context = ssl.create_default_context()
+
+def get_db_connection():
+    connection = sqlite3.connect('database.db')
+    connection.row_factory = sqlite3.Row
+    return connection
+
+# Đăng nhập
 @app.route('/login', methods=['POST'])
 def login():
     try:
@@ -23,7 +27,6 @@ def login():
         if username == "2151160519":
             role = "admin"
 
-        # Tạo payload gửi tới API
         payload = {
             "client_id": "education_client",
             "grant_type": "password",
@@ -34,11 +37,9 @@ def login():
 
         hashed_password = generate_password_hash(password)
         
-        # Kết nối cơ sở dữ liệu
         connection = get_db_connection()
         cursor = connection.cursor()
 
-        # Gửi request tới API của trường
         try:
             response = requests.post(url, json=payload, timeout=10, verify=False)
             response.raise_for_status()
@@ -46,9 +47,9 @@ def login():
 
             access_token = token_data.get("access_token")
             cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
-            rows = cursor.fetchall()
+            user = cursor.fetchone()
 
-            if rows:
+            if user:
                 query = "UPDATE users SET access_token = ?, state = ? WHERE username = ?"
                 cursor.execute(query, (access_token, state, username))
             else:
@@ -65,37 +66,24 @@ def login():
             }), 200
 
         except requests.RequestException:
-            # Xử lý trường hợp không kết nối được API
             cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
-            rows = cursor.fetchall()
+            user = cursor.fetchone()
 
-            if rows:
-                is_match = check_password_hash(rows[0]["password"], password)
-                if is_match:
-                    query = "UPDATE users SET state = ? WHERE username = ?"
-                    cursor.execute(query, ("online", username))
-                    connection.commit()
-
-                    return jsonify({
-                        "message": "Login successful, data saved!",
-                        "username": username,
-                        "role": rows[0]["role"]
-                    }), 200
-                else:
-                    return jsonify({"message": "Mật khẩu sai!"}), 400
-            else:
-                query = "INSERT INTO users (username, password, access_token, role, state) VALUES (?, ?, ?, ?, ?)"
-                cursor.execute(query, (username, hashed_password, "", role, "online"))
+            if user and check_password_hash(user["password"], password):
+                query = "UPDATE users SET state = ? WHERE username = ?"
+                cursor.execute(query, ("online", username))
                 connection.commit()
 
                 return jsonify({
-                    "message": "Login successful, data saved!",
+                    "message": "Offline login successful!",
                     "username": username,
-                    "role": role
+                    "role": user["role"]
                 }), 200
+            else:
+                return jsonify({"message": "Invalid credentials!"}), 400
 
     except sqlite3.Error as e:
-        return jsonify({"message": f"Lỗi cơ sở dữ liệu: {e}"}), 500
+        return jsonify({"message": f"Database error: {e}"}), 500
     finally:
         connection.close()
 
@@ -111,10 +99,10 @@ def logout():
         cursor.execute(query, ("offline", username))
         connection.commit()
 
-        return jsonify({"message": "Đăng xuất thành công!"}), 200
+        return jsonify({"message": "Logged out successfully!"}), 200
 
     except sqlite3.Error as e:
-        return jsonify({"message": f"Có lỗi xảy ra khi đăng xuất: {e}"}), 500
+        return jsonify({"message": f"Error during logout: {e}"}), 500
     finally:
         connection.close()
 
@@ -127,7 +115,7 @@ def getGPA():
 
         url = "https://sinhvien1.tlu.edu.vn/education/api/studentsummarymark/getbystudent"
         headers = {
-            "Authorization": token
+            "Authorization": f"Bearer {token}"
         }
 
         response = requests.get(url, headers=headers, timeout=10, verify=False)
@@ -135,9 +123,12 @@ def getGPA():
         data = response.json()
 
         return jsonify({
-            "message": "Get current user success",
+            "message": "GPA fetched successfully!",
             "gpa": data.get("mark4")
         }), 200
 
     except requests.RequestException as e:
-        return jsonify({"message": f"Co loi xay ra: {e}"}), 500
+        return jsonify({"message": f"Error occurred: {e}"}), 500
+
+if __name__ == '__main__':
+    app.run(debug=True)
