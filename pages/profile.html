@@ -25,6 +25,7 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">  
   </head>
 
@@ -58,64 +59,89 @@
             <i class="fas fa-bell"></i>
           </button>
           <a href="sign-in.html" class="action-button">
-            <i class="fa-solid fa-right-from-bracket" style="color: #e74c3c;"></i>
+            <i class="fa-solid fa-right-from-bracket" style="color: #e73673;"></i>
           </a>
         </div>
       </header>
       <!-- End Navbar -->
-       <style>
-        .profile-header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            border-bottom: 2px solid #ff69b4; /* Màu hồng */
-        }
-        
-        .profile-header img {
-            border-radius: 50%;
-            width: 150px;
-            height: 150px;
-            border: 3px solid #ff69b4; /* Màu hồng */
-        }
-        
-        .profile-header h1 {
-            margin: 10px 0 5px;
-            color: #343a40; /* Màu chữ tối */
-        }
-        
-        .profile-details {
-            line-height: 1.8;
-        }
-        
-        .profile-details h2 {
-            color: #ff69b4; /* Màu hồng */
-            margin-bottom: 15px;
-        }
-        
-        .profile-details p {
-            background: #f8f9fa; /* Màu nền nhẹ */
-            padding: 10px;
-            border-radius: 5px;
-            margin: 5px 0;
-        }
-       </style>
-      <div class="container">
-        <div class="profile-header">
-            <img src="https://via.placeholder.com/150" alt="Avatar">
-            <h1>Nguyễn Đức Anh</h1>
-            
+      <div class="container-profile">
+        <div class="header-profile"></div>
+        <div class="profile">
+          <div class="profile-info">
+            <div class="avatar-container">
+              <img src="/assets/img/anhhau.jpg" alt="Avatar" class="avatar">
+              <div class="badge">Hậu</div>
+            </div>
+            <div class="name-email">
+              <h3>Triệu Thị Hậu</h3>
+              <p>trieuthihau2810@gmail.com</p>
+            </div>
+          </div>
+          <button class="edit-button">Edit</button>
         </div>
-        <div class="profile-details">
-            <h2>Thông tin cá nhân</h2>
-            <p><strong>Mã sinh viên:</strong> SV123456</p>
-            <p><strong>Số điện thoại:</strong> 123-456-7890</p>
-            <p><strong>Lớp:</strong> 63HTTT1</p>
-            <p><strong>Ngày sinh:</strong> 01/01/2003</p>
-            <p><strong>Năm sinh:</strong> 2003</p>
-            <p><strong>Giới tính:</strong> Nam</p>
-            <p><strong>Điểm GPA:</strong> 4.0</p>
-        </div>
-    </div>
+        <form class="form">
+          <div class="form-group">
+            <label for="student-id">Mã sinh viên(*)</label>
+            <input type="text" id="student-id">
+          </div>
+          <div class="form-group">
+            <label for="class">Lớp(*)</label>
+            <div class="input-icon">
+              <select id="class" class="form-control">
+                <option value="" disabled selected>Chọn lớp</option>
+                <option value="IT1">63HTTT1</option>
+                <option value="IT2">63HTTT2</option>
+              </select>
+              <i class="fa-solid fa-chevron-down"></i>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="class">Khóa(*)</label>
+            <input type="text" id="class">
+          </div>
+          <div class="form-group">
+            <label for="class">Khoa(*)</label>
+            <input type="text" id="class">
+          </div>
+          <div class="form-group">
+            <label for="major">Ngành học(*)</label>
+            <input type="text" id="major">
+          </div>
+          <div class="form-group">
+            <label for="gpa">Điểm GPA(*)</label>
+            <input type="text" id="gpa">
+          </div>
+          <div class="form-group">
+            <label for="gender">Giới tính(*)</label>
+            <div class="input-icon">
+              <select id="gender" class="form-control">
+                <option value="" disabled selected>Chọn giới tính</option>
+                <option value="male">Nam</option>
+                <option value="female">Nữ</option>
+                <option value="other">Khác</option>
+              </select>
+              <i class="fa-solid fa-chevron-down"></i>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="phone">Số điện thoại(*)</label>
+            <input type="text" id="phone">
+          </div>
+          <div class="form-group">
+            <label for="birthday">Ngày sinh(*)</label>
+            <input type="date" id="birthday">
+          </div>
+          <div class="form-group">
+            <label for="address">Địa chỉ(*)</label>
+            <input type="text" id="address">
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" class="cancel-button">Đóng</button>
+            <button type="submit" class="save-button">Lưu</button>
+          </div>
+        </form>
+      </div>
     <!--   Core JS Files   -->
     <script src="../assets/js/core/popper.min.js"></script>
     <script src="../assets/js/core/bootstrap.min.js"></script>
