@@ -6,7 +6,7 @@ import requests
 score_board_URL = "https://sheetdb.io/api/v1/ma8opp1ci2oqd"
 
 def get_db_connection():
-    connection = sqlite3.connect('database.db')
+    connection = sqlite3.connect('./database/database.db')
     connection.row_factory = sqlite3.Row
     return connection
 
@@ -22,8 +22,8 @@ def get_score_board_admin(request):
 
         for item in data:
             cursor.execute(
-                "INSERT INTO score_boards (msv, fullname, score) VALUES (?, ?, ?)",
-                (item['id'], item['name'], item['score']) 
+                "INSERT INTO score_boards (msv, stt, first_name,last_name,class,Go_to_the_board,Summarize_Mindmap,code_sytem,Total) VALUES (?, ?, ?,?, ?, ?,?, ?, ?)",
+                (item['STT'], item['Mã sinh viên'], item['Họ '],item['Tên'], item['Lớp'], item['Lên bảng'],item['Mindmap tổng hợp'], item['Code hệ thống'],item['Tổng điểm tích cực']) 
             )
 
         connection.commit()
