@@ -40,8 +40,9 @@ def get_score_board_users(request):
     response = requests.get(score_board_URL)
     if response.status_code == 200:
         data = response.json()
-        request_body = request.json
-        id = request_body.get('id')
+
+        id = request.args.get('id')
+
         student_data = [record for record in data if record.get("Mã sinh viên") == id]
     
         if student_data:
@@ -50,7 +51,7 @@ def get_score_board_users(request):
 
             for item in student_data:
                 # Kiểm tra xem bản ghi với ID đã tồn tại chưa
-                cursor.execute("SELECT COUNT(*) FROM score_boards WHERE id = ?", (item['id'],))
+                cursor.execute("SELECT * FROM score_boards WHERE msv = ?", (item['Mã sinh viên'],))
                 exists = cursor.fetchone()[0]
 
                 if exists:

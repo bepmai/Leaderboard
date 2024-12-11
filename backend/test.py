@@ -1,21 +1,22 @@
-import requests
+from flask import Flask, render_template
+from flask_socketio import SocketIO, send
 
-# URL API của SheetDB
-SHEETDB_URL = "https://sheetdb.io/api/v1/ma8opp1ci2oqd"
+# Tạo ứng dụng Flask
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'your_secret_key'
 
-# Gửi yêu cầu GET để lấy dữ liệu
-response = requests.get(SHEETDB_URL)
+# Khởi tạo SocketIO
+socketio = SocketIO(app)
 
-# Kiểm tra trạng thái và in dữ liệu
-if response.status_code == 200:
-    data = response.json()  # Lấy dữ liệu JSON từ SheetDB
-    # Lọc bản ghi có Mã sinh viên là 2151163664
-    student_data = [record for record in data if record.get("Mã sinh viên") == "2151163664"]
-    
-    if student_data:
-        print("Bản ghi tìm thấy:")
-        print(student_data)
-    else:
-        print("Không tìm thấy bản ghi với Mã sinh viên là 2151163664.")
-else:
-    print(f"Yêu cầu thất bại: {response.status_code}")
+# Xử lý sự kiện khi client gửi tin nhắn
+@socketio.on('message')
+def handle_message(msg):
+    print(f"Received message: {msg}")
+    send(f"Server echo: {msg}", broadcast=True)  # Gửi lại tin nhắn cho tất cả các client
+
+@app.route('/')
+def index():
+    return render_template('index.html')  # Render trang HTML chứa client WebSocket
+
+if __name__ == '__main__':
+    socketio.run(app, debug=True)
