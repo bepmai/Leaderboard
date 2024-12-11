@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request 
+from flask_socketio import emit
 from flask import jsonify
 import sqlite3
 import requests
@@ -9,6 +9,80 @@ def get_db_connection():
     connection = sqlite3.connect('./database/database.db')
     connection.row_factory = sqlite3.Row
     return connection
+
+def handle_fetch_attendance():
+    try:
+        response = requests.get(attendance_URL)
+        if response.status_code == 200:
+            data = response.json()
+
+            if data:
+                del data[0]  # Remove the first item if required
+
+            connection = get_db_connection()
+            cursor = connection.cursor()
+
+            # Clear old data
+            cursor.execute("DELETE FROM attendances")
+            cursor.execute("DELETE FROM attendance_of_day")
+
+            # Insert new data
+            for item in data:
+                cursor.execute(
+                    """
+                    INSERT INTO attendances 
+                    (msv, stt, first_name, last_name, class, project_point, note, absent, stated) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (item['Mã sinh viên'], item['STT'], item['Họ'], item['Tên'], item['Lớp'], 
+                     item['Điểm project'], item['Ghi chú'], item['Vắng'], item['Phát biểu'])
+                )
+
+                for i in range(1, 16):
+                    if item[f'{i}'] == 'v' or item[f'{i}'] == 'pb':
+                        if item[f'{i}'] == 'pb':
+                            cursor.execute(
+                                """
+                                INSERT INTO attendance_of_day (msv, day, stated, absent) 
+                                VALUES (?, ?, ?, ?)
+                                """,
+                                (item['Mã sinh viên'], i, 1, '')
+                            )
+                        else:
+                            cursor.execute(
+                                """
+                                INSERT INTO attendance_of_day (msv, day, stated, absent) 
+                                VALUES (?, ?, ?, ?)
+                                """,
+                                (item['Mã sinh viên'], i, '', item[f'{i}'])
+                            )
+                    else:
+                        cursor.execute(
+                            """
+                            INSERT INTO attendance_of_day (msv, day, stated, absent) 
+                            VALUES (?, ?, ?, ?)
+                            """,
+                            (item['Mã sinh viên'], i, '', '')
+                        )
+
+            connection.commit()
+            connection.close()
+
+            # Emit success response with data
+            emit('attendance_fetched', {
+                "message": "Attendance fetched successfully!",
+                "data": data
+            })
+        else:
+            # Emit error response if the API call fails
+            emit('attendance_error', {
+                "message": f"Error occurred: {response.status_code}"
+            })
+    except Exception as e:
+        # Emit error response in case of an exception
+        emit('attendance_error', {
+            "message": f"An error occurred: {str(e)}"
+        })
 
 def get_attendance_admin(request):
     response = requests.get(attendance_URL)
