@@ -19,6 +19,7 @@ def get_point_group(request):
         "message": "Point fetched successfully!",
         "data": result_list
     }), 200
+
 def get_point_class(request):
     connection = get_db_connection()
     cursor = connection.cursor()
