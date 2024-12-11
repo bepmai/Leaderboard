@@ -1,6 +1,6 @@
 
 // Biểu đồ cột: Số buổi nghỉ
-const ctxAbsences = document.getElementById('chartAbsences').getContext('2d');
+const ctxAbsences = document.getElementById('chartAbsences');
 new Chart(ctxAbsences, {
   type: 'line',
   data: {
@@ -17,6 +17,15 @@ new Chart(ctxAbsences, {
     responsive: true
   }
 });
+const pieData = {
+  labels: ["Đi học", "Nghỉ học"],
+  datasets: [
+    {
+      data: [85, 15], // Tỷ lệ %
+      backgroundColor: ["#3498db", "#e74c3c"], // Màu sắc
+    },
+  ],
+};
 // Pie chart configuration
 const pieConfig = {
   type: "pie",
