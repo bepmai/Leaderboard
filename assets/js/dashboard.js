@@ -1,5 +1,5 @@
 // Biểu đồ tròn: Số buổi đi học
-const ctxAttendance = document.getElementById('chartAttendance').getContext('2d');
+const ctxAttendance = document.getElementById('pieChart').getContext('2d');
 new Chart(ctxAttendance, {
     type: 'pie',
     data: {
