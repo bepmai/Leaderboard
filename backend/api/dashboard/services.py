@@ -10,7 +10,7 @@ def get_db_connection():
     connection.row_factory = sqlite3.Row
     return connection
 
-def get_dashboard_admin(request):
+def get_dashboard_info_admin(request):
     response = requests.get(dashboard_URL)
     if response.status_code == 200:
         data = response.json()
@@ -36,7 +36,7 @@ def get_dashboard_admin(request):
     else:
         return jsonify({"message": f"Error occurred: {response.status_code}"}), 500
     
-def get_dashboard_users(request):
+def get_dashboard_info_users(request):
     response = requests.get(dashboard_URL)
     if response.status_code == 200:
         data = response.json()
