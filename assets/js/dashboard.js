@@ -17,13 +17,15 @@ new Chart(ctxAttendance, {
 // Biểu đồ cột: Số buổi nghỉ
 const ctxAbsences = document.getElementById('chartAbsences').getContext('2d');
 new Chart(ctxAbsences, {
-    type: 'bar',
+    type: 'line',
     data: {
         labels: ['Tuần 1', 'Tuần 2', 'Tuần 3', 'Tuần 4'],
         datasets: [{
             label: 'Số buổi nghỉ',
             data: [1, 2, 1, 1],
-            backgroundColor: '#e74c3c'
+            backgroundColor: '#e74c3c',
+            fill: false,
+            tension: 0.3
         }]
     },
     options: {

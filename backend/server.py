@@ -8,8 +8,8 @@ app = Flask(__name__)
 
 app.register_blueprint(auth_bp, url_prefix='/api/auth')
 app.register_blueprint(infor_bp, url_prefix='/api/infor')
-app.register_blueprint(score_board_bp, url_prefix='/score_board')
-app.register_blueprint(attendance_bp, url_prefix='/attendance')
+app.register_blueprint(score_board_bp, url_prefix='/api/score_board')
+app.register_blueprint(attendance_bp, url_prefix='/api/attendance')
 
 if __name__ == '__main__':
     app.run(debug=True)
