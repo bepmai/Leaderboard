@@ -9,7 +9,8 @@
 }
 
 body {
-    background: url(../img/1.jpg);
+    background-color: #f5f6fa;
+    /* background: url("../img/Screenshot_1.jpg"); */
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
@@ -25,9 +26,11 @@ body {
 
 .form-container{
     display: flex;
+    background-color: #fff;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
     width: 1000px;
     height: 600px;
-    border: 3px solid rgba(255,255,255, 0.3);
+    /* border: 3px solid rgba(213, 133, 133, 0.3); */
     border-radius: 30px;
     backdrop-filter: blur(20px);
     overflow: hidden;
@@ -39,7 +42,7 @@ body {
     justify-content: center;
     flex-direction: column;
     width: 55%;
-    background: rgba(255,255,255,0.3);
+    background: #3C3C43;
     backdrop-filter: blur(30px);
     border-radius: 0 30% 20% 0;
     transition: border-radius .3s;
@@ -108,7 +111,7 @@ body {
 }
 .featured-words span{
     font-weight: 600;
-    color: #21264D;
+    color: #e73673;
 }
 
 .col-2{
@@ -137,8 +140,8 @@ body {
 
 .form-title{
     margin: 40px 0;
-    color: #fff;
-    font-size: 28px;
+    color: #e73673;
+    font-size: 30px;
     font-weight: 600;
 }
 
@@ -153,8 +156,8 @@ body {
     height: 55px;
     padding: 0 15px;
     margin: 10px 0;
-    color: #fff;
-    background: rgba(255,255,255,0.2);
+    color: #000000;
+    background: rgba(212, 202, 206, 0.2);
     border: none;
     border-radius: 10px;
     outline: none;
@@ -163,7 +166,7 @@ body {
 
 }
 ::placeholder{
-    color: #fff;
+    color: #000000;
     font-size: 15px;
 }
 .input-box .icon{
@@ -171,7 +174,7 @@ body {
     top: 50%;
     right: 15px;
     transform: translate(-50%);
-    color: #fff;
+    color: #000000;
 }
 .forgot-pass{
     display: flex;
@@ -196,7 +199,7 @@ body {
     padding: 0 15px;
     margin: 10px 0;
     color: #FFF;
-    background: #21264D;
+    background: #e73673;
     border: none;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -209,7 +212,7 @@ body {
 .additional-info {
     margin-top: 20px;
     font-size: 11px;
-    color: #FFF;
+    color: #000000;
 
 }
 
