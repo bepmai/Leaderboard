@@ -15,3 +15,4 @@ app.register_blueprint(attendance_bp, url_prefix='/api/attendance')
 
 if __name__ == '__main__':
     app.run(debug=True)
+ 
