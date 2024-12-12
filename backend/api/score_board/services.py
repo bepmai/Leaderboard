@@ -21,9 +21,10 @@ def get_score_board_admin(request):
         cursor.execute("DELETE FROM score_boards")
 
         for item in data:
+            print(item['Mã sinh viên'], item['STT'], item['Họ'],item['Tên'], item['Lớp'], item['Lên bảng'],item['Mindmap tổng hợp'], item['Code hệ thống'],item['Tổng điểm tích cực'])
             cursor.execute(
                 "INSERT INTO score_boards (msv, stt, first_name,last_name,class,Go_to_the_board,Summarize_Mindmap,code_sytem,Total) VALUES (?, ?, ?,?, ?, ?,?, ?, ?)",
-                (item['Mã sinh viên'], item['STT'], item['Họ '],item['Tên'], item['Lớp'], item['Lên bảng'],item['Mindmap tổng hợp'], item['Code hệ thống'],item['Tổng điểm tích cực']) 
+                (item['Mã sinh viên'], item['STT'], item['Họ'],item['Tên'], item['Lớp'], item['Lên bảng'],item['Mindmap tổng hợp'], item['Code hệ thống'],item['Tổng điểm tích cực']) 
             )
 
         connection.commit()
@@ -52,19 +53,19 @@ def get_score_board_users(request):
             for item in student_data:
                 # Kiểm tra xem bản ghi với ID đã tồn tại chưa
                 cursor.execute("SELECT * FROM score_boards WHERE msv = ?", (item['Mã sinh viên'],))
-                exists = cursor.fetchone()[0]
+                exists = cursor.fetchone()
 
                 if exists:
                     # Cập nhật bản ghi nếu đã tồn tại
                     cursor.execute(
                         "UPDATE score_boards SET stt = ?, first_name = ?,last_name = ?,class = ?,Go_to_the_board = ?,Summarize_Mindmap = ?,code_sytem = ?,Total = ? WHERE msv = ?",
-                        (item['STT'], item['Họ '],item['Tên'], item['Lớp'], item['Lên bảng'],item['Mindmap tổng hợp'], item['Code hệ thống'],item['Tổng điểm tích cực'],item['Mã sinh viên']) 
+                        (item['STT'], item['Họ'],item['Tên'], item['Lớp'], item['Lên bảng'],item['Mindmap tổng hợp'], item['Code hệ thống'],item['Tổng điểm tích cực'],item['Mã sinh viên']) 
                     )
                 else:
                     # Thêm bản ghi nếu chưa tồn tại
                     cursor.execute(
                         "INSERT INTO score_boards (msv, stt, first_name,last_name,class,Go_to_the_board,Summarize_Mindmap,code_sytem,Total) VALUES (?, ?, ?,?, ?, ?,?, ?, ?)",
-                        (item['Mã sinh viên'], item['STT'], item['Họ '],item['Tên'], item['Lớp'], item['Lên bảng'],item['Mindmap tổng hợp'], item['Code hệ thống'],item['Tổng điểm tích cực']) 
+                        (item['Mã sinh viên'], item['STT'], item['Họ'],item['Tên'], item['Lớp'], item['Lên bảng'],item['Mindmap tổng hợp'], item['Code hệ thống'],item['Tổng điểm tích cực']) 
                     )
 
             connection.commit()
