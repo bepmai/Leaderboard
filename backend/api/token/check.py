@@ -12,12 +12,13 @@ def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         token = request.cookies.get('token')
+        msv = request.cookies.get('msv')
         if not token:
             return jsonify({"message": "Token is missing!"}), 401
         
         connection = get_db_connection()
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM users WHERE access_token = ? or username = ?", (token,token))
+        cursor.execute("SELECT * FROM users WHERE access_token = ? or username = ?", (token,msv))
         user = cursor.fetchone()
         cursor.close()
         connection.close()

@@ -18,9 +18,11 @@ async function login(event) {
         });
         if (response.ok) {
             const result = await response.json();
-            setTimeout(() => {
-                window.location.href = "dashboard.html"; // Chuyển hướng sau một khoảng thời gian
-            }, 100);
+            if(result.role=="admin"){
+                window.location.href="dashboard.html"
+            }else{
+                window.location.href="dashboarduser.html"
+            }
         } else {
             const error = await response.json();
             console.log(error)

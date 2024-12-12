@@ -34,14 +34,17 @@ function getCookie(name) {
 }
 
 function checkLoginStatus() {
-  const token = getCookie('msv');
-  console.log(token);
-  // if (!token) {
-  //   window.location.href = 'sign-in.html';
-  // }
+  const msv = getCookie('msv');
+  if(!msv){
+    window.location.href="sign-in.html"
+  }
 }
 
 window.onload = checkLoginStatus;
+
+function checkRole(){
+  
+}
 
 const ctxAbsences = document.getElementById('chartAbsences');
 new Chart(ctxAbsences, {
