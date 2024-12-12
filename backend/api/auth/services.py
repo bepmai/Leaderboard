@@ -1,8 +1,8 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 import requests
-from flask import jsonify
+from flask import jsonify,make_response
 import sqlite3
-
+from datetime import datetime,timedelta
 # Kết nối đến cơ sở dữ liệu SQLite
 def get_db_connection():
     connection = sqlite3.connect('./database/database.db')
@@ -19,7 +19,7 @@ def login(request):
         role = "normal"
         state = "online"
 
-        if username == "2151160519":
+        if username == "2151160519" or username == "2151163724":
             role = "admin"
 
         payload = {
@@ -41,6 +41,7 @@ def login(request):
             token_data = response.json()
 
             access_token = token_data.get("access_token")
+            
             cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
             user = cursor.fetchone()
 
@@ -53,12 +54,14 @@ def login(request):
 
             connection.commit()
             connection.close()
-            return jsonify({
-                "message": "Login successful, data saved!",
+            resp = make_response(jsonify({"message": "Login successful!",
                 "data": token_data,
                 "username": username,
-                "role": role
-            }), 200
+                "role": role}))
+            expires = datetime.utcnow() + timedelta(seconds=token_data.get("expires_in"))
+            resp.set_cookie('token', access_token, httponly=True,expires=expires,samesite='Lax',secure=False,path='/')
+            resp.set_cookie('msv', username, httponly=False,expires=expires,samesite = 'Lax',secure=False,path='/')
+            return resp
 
         except requests.RequestException:
             cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
@@ -68,12 +71,13 @@ def login(request):
                 query = "UPDATE users SET state = ? WHERE username = ?"
                 cursor.execute(query, ("online", username))
                 connection.commit()
-
-                return jsonify({
-                    "message": "Offline login successful!",
+                resp = make_response(jsonify({"message": "Offline login successful!",
                     "username": username,
-                    "role": user["role"]
-                }), 200
+                    "role": user["role"]}))
+                expires = datetime.utcnow() + timedelta(seconds=86400)
+                resp.set_cookie('token', username, httponly=True,expires=expires,samesite='Lax',secure=False,path='/')
+                resp.set_cookie('msv', username, httponly=False,expires=expires,samesite='Lax',secure=False,path='/')
+                return resp
             else:
                 return jsonify({"message": "Invalid credentials!"}), 400
 
@@ -91,8 +95,10 @@ def logout(request):
         query = "UPDATE users SET state = ? WHERE username = ?"
         cursor.execute(query, ("offline", username))
         connection.commit()
-
-        return jsonify({"message": "Logged out successfully!"}), 200
+        resp = make_response(jsonify({"message": "Login successful!"}))
+        resp.set_cookie('token', "", httponly=True,expires=0,samesite='Lax',path='/')
+        resp.set_cookie('msv', '', httponly=False,expires=0,samesite='Lax',path='/')
+        return resp
 
     except sqlite3.Error as e:
         return jsonify({"message": f"Error during logout: {e}"}), 500

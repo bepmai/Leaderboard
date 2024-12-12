@@ -1,6 +1,7 @@
 from flask import request, jsonify
 from .services import login, logout
 from . import auth_bp
+from ..token.check import token_required
 
 @auth_bp.route('/login', methods=['POST'])
 def login_route():

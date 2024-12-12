@@ -1,4 +1,20 @@
-// Biểu đồ cột: Số buổi nghỉ
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return null;
+}
+
+function checkLoginStatus() {
+  const token = getCookie('msv');
+  console.log(token);
+  // if (!token) {
+  //   window.location.href = 'sign-in.html';
+  // }
+}
+
+window.onload = checkLoginStatus;
+
 const ctxAbsences = document.getElementById('chartAbsences');
 new Chart(ctxAbsences, {
   type: 'line',
@@ -64,18 +80,18 @@ const ctx = document.getElementById("pieChart").getContext("2d");
 new Chart(ctx, pieConfig);
 
 const lineData = {
-  labels: ["11/12", "12/12", "13/12", "14/12", "15/12"], // Ngày
+  labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"], // Ngày
   datasets: [
     {
       label: "Số sinh viên đi học",
-      data: [30, 28, 32, 35, 30], // Số lượng
+      data: [],
       borderColor: "#3498db",
       backgroundColor: "rgba(52, 152, 219, 0.2)",
       fill: true,
     },
     {
       label: "Số sinh viên nghỉ học",
-      data: [5, 7, 3, 2, 4], // Số lượng
+      data: [],
       borderColor: "#e74c3c",
       backgroundColor: "rgba(231, 76, 60, 0.2)",
       fill: true,
@@ -127,3 +143,20 @@ new Chart(ctxParticipation, {
     responsive: true
   }
 });
+
+async function fetchChartData() {
+  try {
+    const response = await fetch('http://localhost:5000/api/chart/data'); // Đường dẫn API của bạn
+    const data = await response.json();
+
+    lineData.datasets[0].data = data.attendance;
+    lineData.datasets[1].data = data.absence;
+
+    myChart.update();
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+
+// Gọi hàm để fetch dữ liệu khi trang được tải
+// window.onload = fetchChartData;
