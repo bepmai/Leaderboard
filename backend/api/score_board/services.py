@@ -52,7 +52,7 @@ def get_score_board_users(request):
             for item in student_data:
                 # Kiểm tra xem bản ghi với ID đã tồn tại chưa
                 cursor.execute("SELECT * FROM score_boards WHERE msv = ?", (item['Mã sinh viên'],))
-                exists = cursor.fetchone()[0]
+                exists = cursor.fetchone()
 
                 if exists:
                     # Cập nhật bản ghi nếu đã tồn tại
