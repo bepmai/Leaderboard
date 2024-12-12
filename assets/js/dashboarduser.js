@@ -13,6 +13,8 @@ const pieConfig = {
   type: "pie",
   data: pieData,
   options: {
+    responsive: false, 
+    maintainAspectRatio: false,
     plugins: {
       tooltip: {
         callbacks: {
@@ -52,7 +54,7 @@ const pieConfig = {
 const pieChart = document.getElementById("pieChart").getContext("2d");
 new Chart(pieChart, pieConfig);
 const lineData = {
-  labels: ["11/12", "12/12", "13/12", "14/12", "15/12"], // Các ngày
+  labels: ["11/11", "15/11", "19/11", "22/11", "26/11", "29/11", "3/12", "6/12", "10/12", "0/12", "0/12", "0/12", "0/12", "0/12", "0/12"], // Ngày
   datasets: [
     {
       label: "Trạng thái",
@@ -85,10 +87,6 @@ const lineConfig = {
         },
       },
       y: {
-        title: {
-          display: true,
-          text: "Trạng thái (1: Đi học, 0: Nghỉ học)", // Tiêu đề trục Y
-        },
         ticks: {
           stepSize: 1, // Giá trị tăng theo bước 1
           callback: function (value) {
@@ -102,66 +100,20 @@ const lineConfig = {
   },
 };
 
-// Render biểu đồ
+// Render biểu đồ - phat bieu
 const ctx = document.getElementById("lineChart").getContext("2d");
 new Chart(ctx, lineConfig);
-
-// const lineData = {
-//   labels: ["11/12", "12/12", "13/12", "14/12", "15/12"], // Ngày
-//   datasets: [
-//     {
-//       label: "Số buổi đi học",
-//       data: [30, 28, 32, 35, 30], // Số lượng
-//       borderColor: "#3498db",
-//       backgroundColor: "rgba(52, 152, 219, 0.2)",
-//       fill: true,
-//     },
-//     {
-//       label: "Số buổi nghỉ học",
-//       data: [5, 7, 3, 2, 4], // Số lượng
-//       borderColor: "#e74c3c",
-//       backgroundColor: "rgba(231, 76, 60, 0.2)",
-//       fill: true,
-//     },
-//   ],
-// };
-
-// // Line chart configuration
-// const lineConfig = {
-//   type: "line",
-//   data: lineData,
-//   options: {
-//     scales: {
-//       x: {
-//         title: {
-//           display: true,
-//           text: "Ngày",
-//         },
-//       },
-//       y: {
-//         title: {
-//           display: true,
-//           text: "Số sinh viên",
-//         },
-//       },
-//     },
-//   },
-// };
-
-// // Render line chart
-// new Chart(document.getElementById("lineChart"), lineConfig);
-// Biểu đồ đường: Số lần phát biểu
 const ctxParticipation = document
   .getElementById("chartParticipation")
   .getContext("2d");
 new Chart(ctxParticipation, {
   type: "line",
   data: {
-    labels: ["Ngày 1", "Ngày 2", "Ngày 3", "Ngày 4", "Ngày 5"],
+    labels: ["Lên bảng", "Mindmap tổng hợp", "Code hệ thống"],
     datasets: [
       {
         label: "Số lần phát biểu",
-        data: [3, 4, 2, 5, 1],
+        data: [3, 1, 1],
         borderColor: "#3498db",
         borderWidth: 2,
         fill: false,
@@ -171,6 +123,7 @@ new Chart(ctxParticipation, {
     ],
   },
   options: {
-    responsive: true,
+    responsive: false,
+    maintainAspectRatio: false, 
   },
 });
