@@ -13,13 +13,13 @@ def get_db_connection():
 
 def get_attendance_info_admin(request):
     try:
-        date_strings = ["12/11/2024", "15/11/2024", "22/11/2024", "26/11/2024","29/11/2024","03/12/2024","06/12/2024","10/12/2024","13/12/2024","17/12/2024","20/12/2024","24/12/2024","27/12/2024","31/12/2024","03/12/2024"]
         data = request.json
         day_request = data.get('day')
 
         if day_request:
             day = day_request
         else:
+            date_strings = ["12/11/2024", "15/11/2024", "22/11/2024", "26/11/2024","29/11/2024","03/12/2024","06/12/2024","10/12/2024","13/12/2024","17/12/2024","20/12/2024","24/12/2024","27/12/2024","31/12/2024","03/12/2024"]
             date_objects = [datetime.strptime(date, "%d/%m/%Y") for date in date_strings]
 
             today = datetime.now()
