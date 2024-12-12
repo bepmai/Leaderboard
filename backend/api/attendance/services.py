@@ -15,20 +15,10 @@ def get_attendance_info_admin(request):
     try:
         date_strings = ["12/11/2024", "15/11/2024", "22/11/2024", "26/11/2024","29/11/2024","03/12/2024","06/12/2024","10/12/2024","13/12/2024","17/12/2024","20/12/2024","24/12/2024","27/12/2024","31/12/2024","03/12/2024"]
         data = request.json
-        day_request = data.get('date')
-        if day_request:
-            if day_request in date_strings:
-                day = date_strings.index(day_request) + 2
-            else:
-                date_objects = [datetime.strptime(date, "%d/%m/%Y") for date in date_strings]
+        day_request = data.get('day')
 
-                today = datetime.now()
-                day = 1
-                for date in date_objects:
-                    if today > date:
-                        day+=1
-                    else:
-                        break
+        if day_request:
+            day = day_request
         else:
             date_objects = [datetime.strptime(date, "%d/%m/%Y") for date in date_strings]
 
