@@ -59,8 +59,8 @@ def login(request):
                 "username": username,
                 "role": role}))
             expires = datetime.utcnow() + timedelta(seconds=token_data.get("expires_in"))
-            resp.set_cookie('token', access_token, httponly=True,expires=expires,samesite='Lax',secure=False,path='/')
-            resp.set_cookie('msv', username, httponly=False,expires=expires,samesite = 'Lax',secure=False,path='/')
+            resp.set_cookie('token', access_token, httponly=True,expires=expires,samesite='None',secure=True,path='/',domain=".localhost")
+            resp.set_cookie('msv', username, httponly=False,expires=expires,samesite = 'None',secure=True,path='/',domain=".localhost")
             return resp
 
         except requests.RequestException:
@@ -75,8 +75,8 @@ def login(request):
                     "username": username,
                     "role": user["role"]}))
                 expires = datetime.utcnow() + timedelta(seconds=86400)
-                resp.set_cookie('token', username, httponly=True,expires=expires,samesite='Lax',secure=False,path='/')
-                resp.set_cookie('msv', username, httponly=False,expires=expires,samesite='Lax',secure=False,path='/')
+                resp.set_cookie('token', username, httponly=True,samesite='None',secure=True,path='/',domain=".localhost")
+                resp.set_cookie('msv', username, httponly=False,samesite='None',secure=True,path='/',domain=".localhost")
                 return resp
             else:
                 return jsonify({"message": "Invalid credentials!"}), 400
