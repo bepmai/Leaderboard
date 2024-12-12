@@ -59,8 +59,8 @@ def login(request):
                 "username": username,
                 "role": role}))
             expires = datetime.utcnow() + timedelta(seconds=token_data.get("expires_in"))
-            resp.set_cookie('token', access_token, httponly=True,expires=expires,samesite='None',secure=True,path='/',domain=".localhost")
-            resp.set_cookie('msv', username, httponly=False,expires=expires,samesite = 'None',secure=True,path='/',domain=".localhost")
+            resp.set_cookie('token', access_token, httponly=False,samesite='None',secure=True,path='/',domain=".localhost")
+            resp.set_cookie('msv', username, httponly=False,samesite = 'None',secure=True,path='/',domain=".localhost")
             return resp
 
         except requests.RequestException:
@@ -75,7 +75,7 @@ def login(request):
                     "username": username,
                     "role": user["role"]}))
                 expires = datetime.utcnow() + timedelta(seconds=86400)
-                resp.set_cookie('token', username, httponly=True,samesite='None',secure=True,path='/',domain=".localhost")
+                resp.set_cookie('token', username, httponly=False,samesite='None',secure=True,path='/',domain=".localhost")
                 resp.set_cookie('msv', username, httponly=False,samesite='None',secure=True,path='/',domain=".localhost")
                 return resp
             else:
@@ -96,8 +96,27 @@ def logout(request):
         cursor.execute(query, ("offline", username))
         connection.commit()
         resp = make_response(jsonify({"message": "Login successful!"}))
-        resp.set_cookie('token', "", httponly=True,expires=0,samesite='Lax',path='/')
-        resp.set_cookie('msv', '', httponly=False,expires=0,samesite='Lax',path='/')
+        resp.set_cookie('token', "", httponly=False,expires=0,samesite='None',secure=True,path='/')
+        resp.set_cookie('msv', '', httponly=False,expires=0,samesite='None',secure=True,path='/')
+        return resp
+
+    except sqlite3.Error as e:
+        return jsonify({"message": f"Error during logout: {e}"}), 500
+    finally:
+        connection.close()
+        
+def checkRole(request):
+    try:
+        data = request.json
+        username = data.get('msv')
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        query = "select role from users WHERE username = ?"
+        cursor.execute(query, (username,))
+        role = cursor.fetchone()[0]
+        connection.commit()
+        resp = make_response(jsonify({"message": "Login successful!"}))
+        resp.set_cookie('role',role, httponly=False,samesite='None',secure=True,path='/')
         return resp
 
     except sqlite3.Error as e:

@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from .services import login, logout
+from .services import login, logout,checkRole
 from . import auth_bp
 from ..token.check import token_required
 
@@ -9,4 +9,9 @@ def login_route():
 
 @auth_bp.route('/logout', methods=['POST'])
 def logout_route():
+    return logout(request)
+
+@auth_bp.route('/role', methods=['POST'])
+@token_required
+def check_route():
     return logout(request)
