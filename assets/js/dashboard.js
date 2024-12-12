@@ -14,6 +14,8 @@ const pieData = {
     type: "pie",
     data: pieData,
     options: {
+      responsive: false, 
+      maintainAspectRatio: false, 
       plugins: {
         tooltip: {
           callbacks: {
@@ -48,18 +50,18 @@ const pieData = {
   new Chart(ctx, pieConfig);
 
   const lineData = {
-labels: ["11/12", "12/12", "13/12", "14/12", "15/12"], // Ngày
+labels: ["11/11", "15/11", "19/11", "22/11", "26/11", "29/11", "3/12", "6/12", "10/12", "0/12", "0/12", "0/12", "0/12", "0/12", "0/12"], // Ngày
 datasets: [
   {
     label: "Số sinh viên đi học",
-    data: [30, 28, 32, 35, 30], // Số lượng
+    data: [30, 28, 32, 35, 30, 30, 28, 32, 35, 30, 30, 28, 32, 35, 30], // Số lượng
     borderColor: "#3498db",
     backgroundColor: "rgba(52, 152, 219, 0.2)",
     fill: true,
   },
   {
     label: "Số sinh viên nghỉ học",
-    data: [5, 7, 3, 2, 4], // Số lượng
+    data: [5, 7, 3, 2, 4, 5, 7, 3, 2, 4, 5, 7, 3, 2, 4], // Số lượng
     borderColor: "#e74c3c",
     backgroundColor: "rgba(231, 76, 60, 0.2)",
     fill: true,
@@ -91,23 +93,117 @@ datasets: [
 
     // Render line chart
     new Chart(document.getElementById("lineChart"), lineConfig);
-// Biểu đồ đường: Số lần phát biểu
+// Biểu đồ đường: Số lần phát biểu lớp
 const ctxParticipation = document.getElementById('chartParticipation').getContext('2d');
 new Chart(ctxParticipation, {
-    type: 'line',
-    data: {
-        labels: ['Ngày 1', 'Ngày 2', 'Ngày 3', 'Ngày 4', 'Ngày 5'],
-        datasets: [{
-            label: 'Số lần phát biểu',
-            data: [3, 4, 2, 5, 1],
-            borderColor: '#3498db',
-            borderWidth: 2,
-            fill: false,
-            pointBackgroundColor: '#3498db',
-            tension: 0.3
-        }]
+  type: 'line',
+  data: {
+    labels: ["11/11", "15/11", "19/11", "22/11", "26/11", "29/11", "3/12", "6/12", "10/12", "0/12", "0/12", "0/12", "0/12", "0/12", "0/12"], // Ngày
+    datasets: [
+      {
+        label: 'Số lần phát biểu',
+        data: [0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        borderColor: '#3498db',
+        borderWidth: 2,
+        fill: false, 
+        pointBackgroundColor: '#3498db', 
+        tension: 0.3,
+      },
+    ],
+  },
+  options: {
+    responsive: true, // Tự động thay đổi kích thước
+    plugins: {
+      legend: {
+        display: true, // Hiển thị chú thích
+        position: 'top',
+      },
+      tooltip: {
+        callbacks: {
+          label: function (tooltipItem) {
+            return `Số lần phát biểu: ${tooltipItem.raw}`;
+          },
+        },
+      },
     },
-    options: {
-        responsive: true
-    }
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Ngày', // Tiêu đề trục X
+          font: {
+            size: 14,
+          },
+        },
+        ticks: {
+          stepSize: 1, // Bước nhảy trên trục X
+          beginAtZero: true,
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Số lần phát biểu', // Tiêu đề trục Y
+          font: {
+            size: 14,
+          },
+        },
+        ticks: {
+          stepSize: 1, // Bước nhảy trên trục Y
+          beginAtZero: true,
+        },
+      },
+    },
+  },
 });
+
+// Biểu đồ đường: Số lần phát biểu -cụm
+const ctxParticipationCluster = document
+  .getElementById('chartParticipationCluster')
+  .getContext('2d'); 
+
+new Chart(ctxParticipationCluster, {
+  type: 'line', 
+  data: {
+    labels: ['Đức Anh', 'Bách', 'Đạo', 'Dũng', 'Giang', 'Hậu', 'Hiếu', 'Hùng', 'Hường', 'Lê', 'Mai'], 
+    datasets: [
+      {
+        label: 'Số lần phát biểu',
+        data: [3, 3, 3, 5, 2, 5, 0, 0, 1, 1, 5], 
+        borderColor: '#3498db', 
+        borderWidth: 2,
+        fill: false, 
+        pointBackgroundColor: '#3498db', 
+        tension: 0.3, 
+      },
+    ],
+  },
+  options: {
+    responsive: true, 
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Tên thành viên', 
+          font: {
+            size: 14,
+          },
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Số lần phát biểu', 
+          font: {
+            size: 14,
+          },
+        },
+        ticks: {
+          stepSize: 1, 
+          beginAtZero: true, 
+        },
+      },
+    },
+  },
+});
+
