@@ -16,11 +16,11 @@ body {
   width: 290px;
   background-color: #3c3c43;
   color: #fff;
-  padding: 10px; /* Giảm padding để đẩy nội dung lên */
+  padding: 10px; 
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Đảm bảo nội dung ở phía trên */
-  gap: 10px; /* Khoảng cách giữa các phần tử */
+  justify-content: flex-start; 
+  gap: 10px; 
   border-radius: 10px;
 }
 
@@ -114,18 +114,15 @@ nav ul li a:hover {
 
 .sidebar {
   position: fixed;
-  position: fixed;
   top: 0;
   left: 0;
   height: 100%;
   background-color: #333;
   overflow-y: auto;
-
   width: 290px;
   background-color: #3C3C43;
   color: #fff;
   padding: 10px; 
-  display: flex;
   flex-direction: column;
   justify-content: flex-start; 
   gap: 10px; 
@@ -220,6 +217,7 @@ nav ul li a:hover {
   overflow-y: auto;
   height: calc(100vh - 80px); 
 }
+
 .overview {
   display: flex;
   gap: 20px;
