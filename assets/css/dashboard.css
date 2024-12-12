@@ -270,3 +270,48 @@ nav ul li a:hover {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 
+/* Đặt kiểu cho label */
+label[for="Date"] {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin-right: 10px;
+  display: inline-block;
+}
+
+input[type="date"] {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s, background-color 0.3s;
+  width: 200px;
+  margin-top: 5px;
+}
+
+input[type="date"]:hover {
+  border-color: #3498db;
+  background-color: #eaf4ff;
+}
+
+input[type="date"]:focus {
+  outline: none;
+  border-color: #3498db;
+  background-color: #eaf4ff;
+}
+
+.time-selection {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.time-selection label {
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: 500;
+}
