@@ -7,9 +7,11 @@ from api.attendance import attendance_bp
 from api.leaderboard import leaderboard_bp
 from api.dashboard import dashboard_bp
 from flask_cors import CORS
+
 app = Flask(__name__)
 CORS(app, supports_credentials=True, origins=["http://127.0.0.1:5500/"])
 socketio = SocketIO(app)
+
 app.register_blueprint(auth_bp, url_prefix='/api/auth')
 app.register_blueprint(infor_bp, url_prefix='/api/infor')
 app.register_blueprint(leaderboard_bp, url_prefix='/api/leaderboard')
