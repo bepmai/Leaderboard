@@ -9,7 +9,7 @@ from api.dashboard import dashboard_bp
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, supports_credentials=True, origins=["http://127.0.0.1:5500/"])
+CORS(app, supports_credentials=True)
 socketio = SocketIO(app)
 
 app.register_blueprint(auth_bp, url_prefix='/api/auth')
