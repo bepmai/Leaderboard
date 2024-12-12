@@ -1,4 +1,3 @@
-
 // Biểu đồ cột: Số buổi nghỉ
 const ctxAbsences = document.getElementById('chartAbsences');
 new Chart(ctxAbsences, {

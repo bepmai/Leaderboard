@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, jsonify
 from .services import get_dashboard_info_admin, get_dashboard_info_users
 from . import dashboard_bp
 
