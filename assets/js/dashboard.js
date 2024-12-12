@@ -1,3 +1,31 @@
+async function fetchDashboardInfo() {
+  try {
+      const response = await fetch('http://localhost:5000/api/dashboard/dashboard_info_admin', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      document.getElementById("School_attendance_rate").textContent = data.School_attendance_rate + " người" || "N/A";
+      document.getElementById("Break_rate").textContent = data.Break_rate + " người" || "N/A";
+      document.getElementById("number_of_speeches").textContent = data.number_of_speeches + " lần" || "N/A";
+
+      console.log("Dữ liệu nhận được:", data);
+  } catch (error) {
+      console.error("Lỗi khi gọi API:", error);
+      document.getElementById("errorMessage").textContent = "Không thể tải dữ liệu.";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", fetchDashboardInfo);
+
 function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
