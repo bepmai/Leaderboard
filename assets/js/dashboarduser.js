@@ -1,7 +1,7 @@
+const msv = getCookie('msv');
+
 async function fetchDashboardUsersInfo() {
   try {
-    const msv = getCookie('msv');
-
     if (!msv) {
         console.error("Token không tồn tại trong cookie!");
         return;
@@ -160,7 +160,7 @@ new Chart(ctxParticipation, {
   },
   options: {
     responsive: false,
-    maintainAspectRatio: false, 
+    maintainAspectRatio: false,
   },
 });
 

@@ -1,6 +1,7 @@
 if(getCookie('role')!="admin"){
   window.location.href="dashboarduser.html"
 }
+const msv = getCookie('msv');
 async function fetchDashboardInfo() {
   try {
     const token = getCookie("token");
