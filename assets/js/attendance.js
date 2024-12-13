@@ -60,4 +60,38 @@ async function fetchAttendaceAmin() {
     });
 }
 
-  document.addEventListener("DOMContentLoaded", fetchAttendaceAmin);
+document.addEventListener("DOMContentLoaded", fetchAttendaceAmin);
+document.addEventListener("DOMContentLoaded", fetchAttendceInfo);
+
+const date = document.getElementById("date");
+
+  async function fetchAttendceInfo(event) {
+    const Data = {
+        day: date.value
+    };
+    try {
+      const response = await fetch('http://localhost:5000/api/attendance/attendance_info_admin', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(Data),
+          credentials:'include'
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+  
+      document.getElementById("number_of_attendance").textContent = data.number_of_attendance + " người" || "N/A";
+      document.getElementById("number_of_break").textContent = data.number_of_break + " người" || "N/A";
+      document.getElementById("number_of_speeches").textContent = data.number_of_speeches + " lần" || "N/A";
+  
+      console.log("Dữ liệu nhận được:", data);
+    } catch (error) {
+      console.error("Lỗi khi gọi API:", error);
+      document.getElementById("errorMessage").textContent = "Không thể tải dữ liệu.";
+    }
+  }

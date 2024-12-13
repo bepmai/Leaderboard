@@ -67,21 +67,21 @@
         <i class="fas fa-user-graduate"></i>
         <div>
           <p>Số người đi học theo ngày</p>
-          <h3>55 người</h3>
+          <h3 id="number_of_attendance">55 người</h3>
         </div>
       </div>
       <div class="overview-card">
         <i class="fas fa-calendar-times"></i>
         <div>
           <p>Số người nghỉ theo ngày</p>
-          <h3>5 người</h3>
+          <h3 id="number_of_break">5 người</h3>
         </div>
       </div>
       <div class="overview-card">
         <i class="fas fa-microphone"></i>
         <div>
           <p>Số lần phát biểu theo ngày</p>
-          <h3>15 lần</h3>
+          <h3 id="number_of_speeches">15 lần</h3>
         </div>
       </div>
     </section>
@@ -104,7 +104,7 @@
         <option>14</option>
         <option>15</option>
       </select>
-      <button class="btn btn-primary mt-3 ms-3">Nhập</button>
+      <button class="btn btn-primary mt-3 ms-3" onclick="fetchAttendceInfo()">Nhập</button>
     </div>
       <!-- Bang -->
       <div class="container-fluid py-4">

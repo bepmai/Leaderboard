@@ -15,19 +15,19 @@ def get_score_board_admin(request):
     if response.status_code == 200:
         data = response.json()
 
-        connection = get_db_connection()
-        cursor = connection.cursor()
+        # connection = get_db_connection()
+        # cursor = connection.cursor()
 
-        cursor.execute("DELETE FROM score_boards")
+        # cursor.execute("DELETE FROM score_boards")
 
-        for item in data:
-            cursor.execute(
-                "INSERT INTO score_boards (msv, stt, first_name,last_name,class,Go_to_the_board,Summarize_Mindmap,code_sytem,Total) VALUES (?, ?, ?,?, ?, ?,?, ?, ?)",
-                (item['Mã sinh viên'], item['STT'], item['Họ '],item['Tên'], item['Lớp'], item['Lên bảng'],item['Mindmap tổng hợp'], item['Code hệ thống'],item['Tổng điểm tích cực']) 
-            )
+        # for item in data:
+        #     cursor.execute(
+        #         "INSERT INTO score_boards (msv, stt, first_name,last_name,class,Go_to_the_board,Summarize_Mindmap,code_sytem,Total) VALUES (?, ?, ?,?, ?, ?,?, ?, ?)",
+        #         (item['Mã sinh viên'], item['STT'], item['Họ '],item['Tên'], item['Lớp'], item['Lên bảng'],item['Mindmap tổng hợp'], item['Code hệ thống'],item['Tổng điểm tích cực']) 
+        #     )
 
-        connection.commit()
-        connection.close()
+        # connection.commit()
+        # connection.close()
 
         return jsonify({
             "message": "Score board fetched successfully!",
