@@ -9,8 +9,7 @@ async function fetchDashboardInfo() {
     const response = await fetch('http://localhost:5000/api/dashboard/dashboard_info_admin', {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `bearer ${token}`
+          'Content-Type': 'application/json'
         },
         credentials:'include'
     });
