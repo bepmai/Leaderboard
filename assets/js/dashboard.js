@@ -11,7 +11,8 @@ async function fetchDashboardInfo() {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `bearer ${token}`
-      }
+        },
+        credentials:'include'
     });
 
     if (!response.ok) {
