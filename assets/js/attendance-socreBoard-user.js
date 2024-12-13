@@ -57,8 +57,6 @@ async function fetchAttendaceUsers() {
     }
   }
 
-//   fetchAttendaceUsers();
-
 async function fetchSoreBoardUsers() {
     try {
       const msv = getCookie('msv');
@@ -101,5 +99,5 @@ async function fetchSoreBoardUsers() {
       document.getElementById("errorMessage").textContent = "Không thể tải dữ liệu.";
     }
   }
-
-  fetchSoreBoardUsers();
+  document.addEventListener("DOMContentLoaded", fetchAttendaceUsers);
+  document.addEventListener("DOMContentLoaded", fetchSoreBoardUsers);
