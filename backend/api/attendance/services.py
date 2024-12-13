@@ -4,7 +4,7 @@ import sqlite3
 import requests
 from datetime import datetime
 
-attendance_URL = "https://sheetdb.io/api/v1/tgpag8379teow"
+attendance_URL = "https://sheetdb.io/api/v1/ue2v47krv8ovs"
 
 def get_db_connection():
     connection = sqlite3.connect('./database/database.db')
@@ -64,37 +64,37 @@ def get_attendance_admin(request):
         if data:
             del data[0]  # Hoặc: data.pop(0)
 
-        connection = get_db_connection()
-        cursor = connection.cursor()
+        # connection = get_db_connection()
+        # cursor = connection.cursor()
 
-        cursor.execute("DELETE FROM attendances")
-        cursor.execute("DELETE FROM attendance_of_day")
+        # cursor.execute("DELETE FROM attendances")
+        # cursor.execute("DELETE FROM attendance_of_day")
 
-        for item in data:
-            cursor.execute(
-                "INSERT INTO attendances (msv, stt, first_name,last_name,class,project_point,note,absent,stated) VALUES (?, ?, ?,?, ?, ?,?, ?, ?)",
-                (item['Mã sinh viên'], item['STT'], item['Họ'],item['Tên'], item['Lớp'], item['Điểm project'],item['Ghi chú'], item['Vắng'],item['Phát biểu']) 
-            )
-            for i in range(1,16):
-                if (item[f'{i}']=='v' or item[f'{i}']=='pb'):
-                    if (item[f'{i}']=='pb'):
-                        cursor.execute(
-                            "INSERT INTO attendance_of_day (msv, day,stated,absent) VALUES (?, ?, ?,?)",
-                            (item['Mã sinh viên'], i, 1,'') 
-                        )
-                    else:
-                        cursor.execute(
-                            "INSERT INTO attendance_of_day (msv, day,stated,absent) VALUES (?, ?, ?,?)",
-                            (item['Mã sinh viên'], i, '',item[f'{i}']) 
-                        )
-                else:
-                    cursor.execute(
-                            "INSERT INTO attendance_of_day (msv, day,stated,absent) VALUES (?, ?, ?,?)",
-                            (item['Mã sinh viên'], i, '','') 
-                        )
+        # for item in data:
+        #     cursor.execute(
+        #         "INSERT INTO attendances (msv, stt, first_name,last_name,class,project_point,note,absent,stated) VALUES (?, ?, ?,?, ?, ?,?, ?, ?)",
+        #         (item['Mã sinh viên'], item['STT'], item['Họ'],item['Tên'], item['Lớp'], item['Điểm project'],item['Ghi chú'], item['Vắng'],item['Phát biểu']) 
+        #     )
+        #     for i in range(1,16):
+        #         if (item[f'{i}']=='v' or item[f'{i}']=='pb'):
+        #             if (item[f'{i}']=='pb'):
+        #                 cursor.execute(
+        #                     "INSERT INTO attendance_of_day (msv, day,stated,absent) VALUES (?, ?, ?,?)",
+        #                     (item['Mã sinh viên'], i, 1,'') 
+        #                 )
+        #             else:
+        #                 cursor.execute(
+        #                     "INSERT INTO attendance_of_day (msv, day,stated,absent) VALUES (?, ?, ?,?)",
+        #                     (item['Mã sinh viên'], i, '',item[f'{i}']) 
+        #                 )
+        #         else:
+        #             cursor.execute(
+        #                     "INSERT INTO attendance_of_day (msv, day,stated,absent) VALUES (?, ?, ?,?)",
+        #                     (item['Mã sinh viên'], i, '','') 
+        #                 )
 
-        connection.commit()
-        connection.close()
+        # connection.commit()
+        # connection.close()
         return jsonify({
             "message": "Attendance fetched successfully!",
             "data": data
