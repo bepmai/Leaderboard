@@ -95,33 +95,30 @@ def logout(request):
         query = "UPDATE users SET state = ? WHERE username = ?"
         cursor.execute(query, ("offline", username))
         connection.commit()
-        resp = make_response(jsonify({"message": "Login successful!"}))
-        resp.set_cookie('token', "", httponly=False,expires=0,samesite='None',secure=True,path='/')
-        resp.set_cookie('msv', '', httponly=False,expires=0,samesite='None',secure=True,path='/')
+        resp = make_response(jsonify({"message": "Logout successful!"}))
+        resp.set_cookie('token', "", httponly=False,expires=0,samesite='None',secure=True,path='/',domain=".localhost")
+        resp.set_cookie('msv', '', httponly=False,expires=0,samesite='None',secure=True,path='/',domain=".localhost")
         return resp
 
     except sqlite3.Error as e:
         return jsonify({"message": f"Error during logout: {e}"}), 500
-    finally:
-        connection.close()
+
         
 def checkRole(request):
     try:
         data = request.json
-        username = data.get('msv')
+        username = data.get('username')
         connection = get_db_connection()
         cursor = connection.cursor()
         query = "select role from users WHERE username = ?"
         cursor.execute(query, (username,))
-        role = cursor.fetchone()[0]
+        role = cursor.fetchone()
         connection.commit()
-        resp = make_response(jsonify({"message": "Login successful!"}))
-        resp.set_cookie('role',role, httponly=False,samesite='None',secure=True,path='/')
+        resp = make_response(jsonify({"message": "Login successful!","data":role[0]}))
+        resp.set_cookie('role',role[0], httponly=False,samesite='None',secure=True,path='/',domain=".localhost")
         return resp
 
     except sqlite3.Error as e:
         return jsonify({"message": f"Error during logout: {e}"}), 500
-    finally:
-        connection.close()
 
 

@@ -172,3 +172,14 @@ def get_stated_all_student_by_day(day,request):
         "message": "Point fetched successfully!",
         "data": result_list
     }), 200
+
+def get_stated_of_user_in_group(student):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute("SELECT GO_TO_the_board FROM SCORE_BOARDS WHERE MSV = ?",(student,))
+    state = cursor.fetchone()
+    return jsonify({
+        "message":"Point fetched successfully!",
+        "data":state[0]
+    }),200
+
