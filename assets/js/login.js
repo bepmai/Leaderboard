@@ -18,20 +18,19 @@ async function login(event) {
         });
         if (response.ok) {
             const result = await response.json();
-            const res = await fetch('http://localhost:5000/api/auth/role',{
-                method:'POST',
-                headers:{
-                    'Content-Type':"application/json"
+            const res = await fetch('http://localhost:5000/api/auth/role', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
                 },
-                body: {
-                    "username":getCookie('msv')
-                },
-                credentials: 'include',
-            })
+                body: JSON.stringify(loginData),
+                credentials: 'include'
+            });
             if(res.ok){
-                if(getCookie('role')=="admin"){
+                if(getCookie("role")=="admin"){
                     window.location.href="dashboard.html"
-                }else{
+                }
+                else{
                     window.location.href="dashboarduser.html"
                 }
             }

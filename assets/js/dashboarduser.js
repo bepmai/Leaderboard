@@ -1,3 +1,39 @@
+async function fetchDashboardUsersInfo() {
+  try {
+    const msv = getCookie('msv');
+
+    if (!msv) {
+        console.error("Token không tồn tại trong cookie!");
+        return;
+    }
+    const response = await fetch(`http://localhost:5000/api/dashboard/dashboard_info_users?id=${msv}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials:'include'
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    document.getElementById("number_of_school_attendance").textContent = data.number_of_school_attendance + " người" || "N/A";
+    document.getElementById("number_of_break").textContent = data.number_of_break + " người" || "N/A";
+    document.getElementById("Number_of_speeches_cluster").textContent = data.Number_of_speeches_cluster + " lần" || "N/A";
+    document.getElementById("rank").textContent = "Thứ " + data.rank || "N/A";
+
+    console.log("Dữ liệu nhận được:", data);
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+    document.getElementById("errorMessage").textContent = "Không thể tải dữ liệu.";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", fetchDashboardUsersInfo);
+
 const pieData = {
   labels: ["Đi học", "Nghỉ học"],
   datasets: [
@@ -127,3 +163,10 @@ new Chart(ctxParticipation, {
     maintainAspectRatio: false, 
   },
 });
+
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return null;
+}

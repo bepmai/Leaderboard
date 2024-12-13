@@ -12,8 +12,7 @@ async function fetchDashboardInfo() {
     const response = await fetch('http://localhost:5000/api/dashboard/dashboard_info_admin', {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `bearer ${token}`
+          'Content-Type': 'application/json'
         },
         credentials:'include'
     });
@@ -46,8 +45,8 @@ function checkLoginStatus() {
 
 window.onload = checkLoginStatus;
 
-function checkRole(){
-  
+if(getCookie('role')!=admin){
+  window.location.href="dashboarduser.html"
 }
 
 const ctxAbsences = document.getElementById('chartAbsences');
