@@ -55,6 +55,69 @@ def get_attendance_info_admin(request):
             "message": "An error occurred while fetching dashboard info.",
             "error": str(e)
         }), 500
+    
+def update_attendace_of_day_table(cursor,item):
+    for i in range(1,16):
+        cursor.execute("SELECT * FROM attendance_of_day WHERE msv = ? AND day = ?", (item['Mã sinh viên'],i,))
+        exists2 = cursor.fetchone()
+        if (item[f'{i}']=='v' or item[f'{i}']=='pb'):
+            if (item[f'{i}']=='pb'):
+                if exists2:
+                    cursor.execute(
+                        "UPDATE attendance_of_day SET stated = ?,absent = ? WHERE msv = ? AND day = ?",
+                        ( 1,'',item['Mã sinh viên'], i) 
+                    )
+                else:
+                    cursor.execute(
+                        "INSERT INTO attendance_of_day (msv, day,stated,absent) VALUES (?, ?, ?,?)",
+                        (item['Mã sinh viên'], i, 1,'') 
+                    )
+            else:
+                if exists2:
+                    cursor.execute(
+                        "UPDATE attendance_of_day SET stated = ?,absent = ? WHERE msv = ? AND day = ?",
+                        ( '',item[f'{i}'],item['Mã sinh viên'], i) 
+                    )
+                else:
+                    cursor.execute(
+                        "INSERT INTO attendance_of_day (msv, day,stated,absent) VALUES (?, ?, ?,?)",
+                        (item['Mã sinh viên'], i, '',item[f'{i}']) 
+                    )
+        else:
+            if exists2:
+                    cursor.execute(
+                        "UPDATE attendance_of_day SET stated = ?,absent = ? WHERE msv = ? AND day = ?",
+                        ( '','',item['Mã sinh viên'], i) 
+                    )
+            else:
+                cursor.execute(
+                    "INSERT INTO attendance_of_day (msv, day,stated,absent) VALUES (?, ?, ?,?)",
+                    (item['Mã sinh viên'], i, '','') 
+                )
+    
+def update_attendace_table(data):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    for item in data:
+        cursor.execute("SELECT * FROM attendances WHERE msv = ?", (item['Mã sinh viên'],))
+        exists = cursor.fetchone()
+
+        if exists:
+            cursor.execute(
+                "UPDATE attendances SET stt = ?, first_name = ?,last_name = ?,class = ?,project_point = ?,note = ?,absent = ?,stated = ? WHERE msv = ?",
+                (item['STT'], item['Họ'],item['Tên'], item['Lớp'], item['Điểm project'],item['Ghi chú'], item['Vắng'],item['Phát biểu'],item['Mã sinh viên']) 
+            )
+            update_attendace_of_day_table(cursor,item)
+        else:
+            cursor.execute(
+                "INSERT INTO attendances (msv, stt, first_name,last_name,class,project_point,note,absent,stated) VALUES (?, ?, ?,?, ?, ?,?, ?, ?)",
+                (item['Mã sinh viên'], item['STT'], item['Họ'],item['Tên'], item['Lớp'], item['Điểm project'],item['Ghi chú'], item['Vắng'],item['Phát biểu']) 
+            )
+            update_attendace_of_day_table(cursor,item)
+
+    connection.commit()
+    connection.close()
 
 def get_attendance_admin(request):
     response = requests.get(attendance_URL)
@@ -64,37 +127,8 @@ def get_attendance_admin(request):
         if data:
             del data[0]  # Hoặc: data.pop(0)
 
-        # connection = get_db_connection()
-        # cursor = connection.cursor()
-
-        # cursor.execute("DELETE FROM attendances")
-        # cursor.execute("DELETE FROM attendance_of_day")
-
-        # for item in data:
-        #     cursor.execute(
-        #         "INSERT INTO attendances (msv, stt, first_name,last_name,class,project_point,note,absent,stated) VALUES (?, ?, ?,?, ?, ?,?, ?, ?)",
-        #         (item['Mã sinh viên'], item['STT'], item['Họ'],item['Tên'], item['Lớp'], item['Điểm project'],item['Ghi chú'], item['Vắng'],item['Phát biểu']) 
-        #     )
-        #     for i in range(1,16):
-        #         if (item[f'{i}']=='v' or item[f'{i}']=='pb'):
-        #             if (item[f'{i}']=='pb'):
-        #                 cursor.execute(
-        #                     "INSERT INTO attendance_of_day (msv, day,stated,absent) VALUES (?, ?, ?,?)",
-        #                     (item['Mã sinh viên'], i, 1,'') 
-        #                 )
-        #             else:
-        #                 cursor.execute(
-        #                     "INSERT INTO attendance_of_day (msv, day,stated,absent) VALUES (?, ?, ?,?)",
-        #                     (item['Mã sinh viên'], i, '',item[f'{i}']) 
-        #                 )
-        #         else:
-        #             cursor.execute(
-        #                     "INSERT INTO attendance_of_day (msv, day,stated,absent) VALUES (?, ?, ?,?)",
-        #                     (item['Mã sinh viên'], i, '','') 
-        #                 )
-
-        # connection.commit()
-        # connection.close()
+        update_attendace_table(data)
+        
         return jsonify({
             "message": "Attendance fetched successfully!",
             "data": data
@@ -112,65 +146,7 @@ def get_attendance_users(request):
         student_data = [record for record in data if record.get("Mã sinh viên") == id]
     
         if student_data:
-            # connection = get_db_connection()
-            # cursor = connection.cursor()
-
-            # for item in student_data:
-            #     # Kiểm tra xem bản ghi với ID đã tồn tại chưa
-            #     cursor.execute("SELECT COUNT(*) FROM attendances WHERE msv = ?", (item['Mã sinh viên'],))
-            #     exists = cursor.fetchone()
-
-            #     cursor.execute("DELETE FROM attendance_of_day WHERE msv = ?", (item['Mã sinh viên'],))
-
-            #     if exists:
-            #         # Cập nhật bản ghi nếu đã tồn tại
-            #         cursor.execute(
-            #             "UPDATE attendances SET stt = ?, first_name = ?,last_name = ?,class = ?,project_point = ?,note = ?,absent = ?,stated = ? WHERE msv = ?",
-            #             (item['STT'], item['Họ'],item['Tên'], item['Lớp'], item['Điểm project'],item['Ghi chú'], item['Vắng'],item['Phát biểu'],item['Mã sinh viên']) 
-            #         )
-            #         for i in range(1,16):
-            #             if (item[f'{i}']=='v' or item[f'{i}']=='pb'):
-            #                 if (item[f'{i}']=='pb'):
-            #                     cursor.execute(
-            #                         "INSERT INTO attendance_of_day (msv, day,stated,absent) VALUES (?, ?, ?,?)",
-            #                         (item['Mã sinh viên'], i, 1,None) 
-            #                     )
-            #                 else:
-            #                     cursor.execute(
-            #                         "INSERT INTO attendance_of_day (msv, day,stated,absent) VALUES (?, ?, ?,?)",
-            #                         (item['Mã sinh viên'], i, None,item[f'{i}']) 
-            #                     )
-            #             else:
-            #                 cursor.execute(
-            #                         "INSERT INTO attendance_of_day (msv, day,stated,absent) VALUES (?, ?, ?,?)",
-            #                         (item['Mã sinh viên'], i,None ,None) 
-            #                     )
-            #     else:
-            #         cursor.execute(
-            #             "INSERT INTO attendances (msv, stt, first_name,last_name,class,project_point,note,absent,stated) VALUES (?, ?, ?,?, ?, ?,?, ?, ?)",
-            #             (item['Mã sinh viên'], item['STT'], item['Họ'],item['Tên'], item['Lớp'], item['Điểm project'],item['Ghi chú'], item['Vắng'],item['Phát biểu']) 
-            #         )
-                    
-            #         for i in range(1,16):
-            #             if (item[f'{i}']=='v' or item[f'{i}']=='pb'):
-            #                 if (item[f'{i}']=='pb'):
-            #                     cursor.execute(
-            #                         "INSERT INTO attendance_of_day (msv, day,stated,absent) VALUES (?, ?, ?,?)",
-            #                         (item['Mã sinh viên'], i, 1,'') 
-            #                     )
-            #                 else:
-            #                     cursor.execute(
-            #                         "INSERT INTO attendance_of_day (msv, day,stated,absent) VALUES (?, ?, ?,?)",
-            #                         (item['Mã sinh viên'], i, '',item[f'{i}']) 
-            #                     )
-            #             else:
-            #                 cursor.execute(
-            #                         "INSERT INTO attendance_of_day (msv, day,stated,absent) VALUES (?, ?, ?,?)",
-            #                         (item['Mã sinh viên'], i, '','') 
-            #                     )
-
-            # connection.commit()
-            # connection.close()
+            update_attendace_table(student_data)
 
             return jsonify({
             "message": "Attendance fetched successfully!",

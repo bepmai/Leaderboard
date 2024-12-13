@@ -15,19 +15,26 @@ def get_score_board_admin(request):
     if response.status_code == 200:
         data = response.json()
 
-        # connection = get_db_connection()
-        # cursor = connection.cursor()
+        connection = get_db_connection()
+        cursor = connection.cursor()
 
-        # cursor.execute("DELETE FROM score_boards")
+        for item in data:
+            cursor.execute("SELECT * FROM score_boards WHERE msv = ?", (item['Mã sinh viên'],))
+            exists = cursor.fetchone()
 
-        # for item in data:
-        #     cursor.execute(
-        #         "INSERT INTO score_boards (msv, stt, first_name,last_name,class,Go_to_the_board,Summarize_Mindmap,code_sytem,Total) VALUES (?, ?, ?,?, ?, ?,?, ?, ?)",
-        #         (item['Mã sinh viên'], item['STT'], item['Họ '],item['Tên'], item['Lớp'], item['Lên bảng'],item['Mindmap tổng hợp'], item['Code hệ thống'],item['Tổng điểm tích cực']) 
-        #     )
+            if exists:
+                cursor.execute(
+                    "UPDATE score_boards SET stt = ?, first_name = ?,last_name = ?,class = ?,Go_to_the_board = ?,Summarize_Mindmap = ?,code_sytem = ?,Total = ? WHERE msv = ?",
+                    (item['STT'], item['Họ '],item['Tên'], item['Lớp'], item['Lên bảng'],item['Mindmap tổng hợp'], item['Code hệ thống'],item['Tổng điểm tích cực'],item['Mã sinh viên']) 
+                )
+            else:
+                cursor.execute(
+                    "INSERT INTO score_boards (msv, stt, first_name,last_name,class,Go_to_the_board,Summarize_Mindmap,code_sytem,Total) VALUES (?, ?, ?,?, ?, ?,?, ?, ?)",
+                    (item['Mã sinh viên'], item['STT'], item['Họ '],item['Tên'], item['Lớp'], item['Lên bảng'],item['Mindmap tổng hợp'], item['Code hệ thống'],item['Tổng điểm tích cực']) 
+                )
 
-        # connection.commit()
-        # connection.close()
+        connection.commit()
+        connection.close()
 
         return jsonify({
             "message": "Score board fetched successfully!",
@@ -50,18 +57,15 @@ def get_score_board_users(request):
             cursor = connection.cursor()
 
             for item in student_data:
-                # Kiểm tra xem bản ghi với ID đã tồn tại chưa
                 cursor.execute("SELECT * FROM score_boards WHERE msv = ?", (item['Mã sinh viên'],))
                 exists = cursor.fetchone()
 
                 if exists:
-                    # Cập nhật bản ghi nếu đã tồn tại
                     cursor.execute(
                         "UPDATE score_boards SET stt = ?, first_name = ?,last_name = ?,class = ?,Go_to_the_board = ?,Summarize_Mindmap = ?,code_sytem = ?,Total = ? WHERE msv = ?",
                         (item['STT'], item['Họ '],item['Tên'], item['Lớp'], item['Lên bảng'],item['Mindmap tổng hợp'], item['Code hệ thống'],item['Tổng điểm tích cực'],item['Mã sinh viên']) 
                     )
                 else:
-                    # Thêm bản ghi nếu chưa tồn tại
                     cursor.execute(
                         "INSERT INTO score_boards (msv, stt, first_name,last_name,class,Go_to_the_board,Summarize_Mindmap,code_sytem,Total) VALUES (?, ?, ?,?, ?, ?,?, ?, ?)",
                         (item['Mã sinh viên'], item['STT'], item['Họ '],item['Tên'], item['Lớp'], item['Lên bảng'],item['Mindmap tổng hợp'], item['Code hệ thống'],item['Tổng điểm tích cực']) 

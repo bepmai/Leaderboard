@@ -12,26 +12,35 @@ async function fetchSoreBoardAdmin() {
   
       console.log("Dữ liệu nhận được:", data);
 
-      const tableBody = document.getElementById("SoreBoardTable"); // Lấy phần <tbody> của bảng
-
-        const row = document.createElement("tr");
-
-        row.innerHTML = `
-            <td>${data['data'][0]['STT']}</td>
-            <td>${data['data'][0]['Mã sinh viên']}</td>
-            <td>${data['data'][0]['Họ ']} ${data['data'][0]['Tên']}</td>
-            <td>${data['data'][0]['Lớp']}</td>
-            <td>${data['data'][0]['Lên bảng']}</td>
-            <td>${data['data'][0]['Mindmap tổng hợp']}</td>
-            <td>${data['data'][0]['Code hệ thống']}</td>
-            <td>${data['data'][0]['Tổng điểm tích cực']}</td>
-        `;
-
-        tableBody.appendChild(row);
+      populateTable(data['data'])
 
     } catch (error) {
       console.error("Lỗi khi gọi API:", error);
       document.getElementById("errorMessage").textContent = "Không thể tải dữ liệu.";
     }
   }
+  function populateTable(data) {
+    const tableBody = document.getElementById("SoreBoardTable"); // Lấy phần <tbody> của bảng
+
+    // Xóa nội dung cũ trong bảng (nếu cần)
+    tableBody.innerHTML = "";
+
+    data.forEach((item, index) => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${item['STT']}</td>
+            <td>${item['Mã sinh viên']}</td>
+            <td>${item['Họ ']}</td>
+            <td>${item['Tên']}</td>
+            <td>${item['Lớp']}</td>
+            <td>${item['Lên bảng']}</td>
+            <td>${item['Mindmap tổng hợp']}</td>
+            <td>${item['Code hệ thống']}</td>
+            <td>${item['Tổng điểm tích cực']}</td>
+        `;
+
+        tableBody.appendChild(row);
+    });
+}
   document.addEventListener("DOMContentLoaded", fetchSoreBoardAdmin);

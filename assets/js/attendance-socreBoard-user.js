@@ -84,7 +84,8 @@ async function fetchSoreBoardUsers() {
         row.innerHTML = `
             <td>${data['data'][0]['STT']}</td>
             <td>${data['data'][0]['Mã sinh viên']}</td>
-            <td>${data['data'][0]['Họ ']} ${data['data'][0]['Tên']}</td>
+            <td>${data['data'][0]['Họ ']}</td>
+            <td>${data['data'][0]['Tên']}</td>
             <td>${data['data'][0]['Lớp']}</td>
             <td>${data['data'][0]['Lên bảng']}</td>
             <td>${data['data'][0]['Mindmap tổng hợp']}</td>
