@@ -19,7 +19,7 @@ async function login(event) {
         if (response.ok) {
             const result = await response.json();
             if(result.role=="admin"){
-                window.location.href="dashboard.html"
+                window.location.href="dashboarduser.html"
             }else{
                 window.location.href="dashboard.html"
             }
