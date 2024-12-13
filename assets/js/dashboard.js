@@ -1,3 +1,6 @@
+if(getCookie('role')!="admin"){
+  window.location.href="dashboarduser.html"
+}
 async function fetchDashboardInfo() {
   try {
     const token = getCookie("token");
@@ -33,13 +36,6 @@ async function fetchDashboardInfo() {
 
 document.addEventListener("DOMContentLoaded", fetchDashboardInfo);
 
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-  return null;
-}
-
 function checkLoginStatus() {
   const msv = getCookie('msv');
   if(!msv){
@@ -49,8 +45,8 @@ function checkLoginStatus() {
 
 window.onload = checkLoginStatus;
 
-function checkRole(){
-  
+if(getCookie('role')!=admin){
+  window.location.href="dashboarduser.html"
 }
 
 const ctxAbsences = document.getElementById('chartAbsences');

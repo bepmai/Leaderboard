@@ -14,4 +14,4 @@ def logout_route():
 @auth_bp.route('/role', methods=['POST'])
 @token_required
 def check_route():
-    return logout(request)
+    return checkRole(request)

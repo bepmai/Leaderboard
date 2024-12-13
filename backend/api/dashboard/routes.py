@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from .services import get_dashboard_info_admin, get_dashboard_info_users,get_absent_student,get_absent_student_by_day,get_stated_student_by_day,get_stated_all_student_by_day
+from .services import get_dashboard_info_admin, get_dashboard_info_users,get_absent_student,get_absent_student_by_day,get_stated_student_by_day,get_stated_all_student_by_day,get_stated_of_user_in_group
 from . import dashboard_bp
 from ..token.check import token_required
 
@@ -32,3 +32,8 @@ def dashboard_get_stated_all_by_day(day):
 @token_required
 def dashboard_get_stated_by_day(day):
     return get_stated_student_by_day(day,request)
+
+@dashboard_bp.route('/chart/stated/group/<string:student>',methods=['GET'])
+@token_required
+def dashboard_get_stated_group_by_msv(student):
+    return get_stated_of_user_in_group(student)

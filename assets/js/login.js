@@ -18,10 +18,21 @@ async function login(event) {
         });
         if (response.ok) {
             const result = await response.json();
-            if(result.role=="admin"){
-                window.location.href="dashboarduser.html"
-            }else{
-                window.location.href="dashboard.html"
+            const res = await fetch('http://localhost:5000/api/auth/role', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(loginData),
+                credentials: 'include'
+            });
+            if(res.ok){
+                if(getCookie("role")=="admin"){
+                    window.location.href="dashboard.html"
+                }
+                else{
+                    window.location.href="dashboarduser.html"
+                }
             }
         } else {
             const error = await response.json();
