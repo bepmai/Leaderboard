@@ -1,9 +1,24 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 import requests
-from flask import jsonify,make_response
+from flask import jsonify,make_response,request
 import sqlite3
 from datetime import datetime,timedelta
 # Kết nối đến cơ sở dữ liệu SQLite
+
+def is_localhost():
+    host = request.host
+    return "localhost" in host
+
+def is_request_from_ngrok():
+    if(request.headers.get('Origin')==None):
+        return ".localhost"
+    if(".ngrok-free.app" not in request.headers.get('Origin')):
+        return ".localhost"
+    return ".ngrok-free.app"
+
+# domain=".localhost"
+domain="secure-koi-wholly.ngrok-free.app"
+
 def get_db_connection():
     connection = sqlite3.connect('./database/database.db')
     connection.row_factory = sqlite3.Row
@@ -59,8 +74,8 @@ def login(request):
                 "username": username,
                 "role": role}))
             expires = datetime.utcnow() + timedelta(seconds=token_data.get("expires_in"))
-            resp.set_cookie('token', access_token, httponly=False,samesite='None',secure=True,path='/',domain=".localhost")
-            resp.set_cookie('msv', username, httponly=False,samesite = 'None',secure=True,path='/',domain=".localhost")
+            resp.set_cookie('token', access_token, httponly=False,samesite='None',secure=True,path='/',domain=domain)
+            resp.set_cookie('msv', username, httponly=False,samesite = 'None',secure=True,path='/',domain=domain)
             return resp
 
         except requests.RequestException:
@@ -75,8 +90,8 @@ def login(request):
                     "username": username,
                     "role": user["role"]}))
                 expires = datetime.utcnow() + timedelta(seconds=86400)
-                resp.set_cookie('token', username, httponly=False,samesite='None',secure=True,path='/',domain=".localhost")
-                resp.set_cookie('msv', username, httponly=False,samesite='None',secure=True,path='/',domain=".localhost")
+                resp.set_cookie('token', username, httponly=False,samesite='None',secure=True,path='/',domain=domain)
+                resp.set_cookie('msv', username, httponly=False,samesite='None',secure=True,path='/',domain=domain)
                 return resp
             else:
                 return jsonify({"message": "Invalid credentials!"}), 400
@@ -96,8 +111,8 @@ def logout(request):
         cursor.execute(query, ("offline", username))
         connection.commit()
         resp = make_response(jsonify({"message": "Logout successful!"}))
-        resp.set_cookie('token', "", httponly=False,expires=0,samesite='None',secure=True,path='/',domain=".localhost")
-        resp.set_cookie('msv', '', httponly=False,expires=0,samesite='None',secure=True,path='/',domain=".localhost")
+        resp.set_cookie('token', "", httponly=False,expires=0,samesite='None',secure=True,path='/',domain=domain)
+        resp.set_cookie('msv', '', httponly=False,expires=0,samesite='None',secure=True,path='/',domain=domain)
         return resp
 
     except sqlite3.Error as e:
@@ -115,7 +130,7 @@ def checkRole(request):
         role = cursor.fetchone()
         connection.commit()
         resp = make_response(jsonify({"message": "Login successful!","data":role[0]}))
-        resp.set_cookie('role',role[0], httponly=False,samesite='None',secure=True,path='/',domain=".localhost")
+        resp.set_cookie('role',role[0], httponly=False,samesite='None',secure=True,path='/',domain=domain)
         return resp
 
     except sqlite3.Error as e:

@@ -14,7 +14,7 @@
     <!-- CSS Files -->
     <link
       id="pagestyle"
-      href="../assets/css/material-dashboard.css?v=3.0.0"
+      href="{{ url_for('static',filename="css/material-dashboard.css")}}?v=3.0.0"
       rel="stylesheet"
     />
     <!-- Bootstrap -->
@@ -24,8 +24,8 @@
       integrity="sha384-oMpQuqH3Rao7lhzKwxkr+e7Y6wQoH0hU5w0kqGzFSmP2Ky0M21VRFfx4oDYGwnyB"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="../assets/css/dashboard.css">
-    <link rel="stylesheet" href="../assets/css/profile.css">
+    <link rel="stylesheet" href="{{ url_for('static',filename="css/dashboard.css")}}">
+    <link rel="stylesheet" href="{{ url_for('static',filename="css/profile.css")}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">  
   </head>
 
@@ -36,11 +36,12 @@
       </div>
       <nav>
         <ul>
-          <li><a href="dashboard.html"><i class="fas fa-chart-pie"></i> Trang chủ</a></li>
-          <li><a href="attendance.html"><i class="fa-solid fa-check-square"></i> Điểm danh</a></li>
-          <li><a href="score-board.html"><i class="fas fa-calendar-check"></i>Điểm phát biểu</a></li>
-          <li><a href="Ranking.html"><i class="fas fa-trophy"></i> Bảng xếp hạng</a></li>
-          <li><a href="profile.html" class="active"><i class="fas fa-user"></i> Thông tin cá nhân</a></li>
+          <li><a href="{{ url_for('dashboard') }}"><i class="fas fa-chart-pie"></i> Trang chủ</a></li>
+          <li id="attendance-admin"><a href="{{ url_for('attendance') }}"><i class="fa-solid fa-check-square"></i> Điểm danh</a></li>
+          <li id="stated-user"><a href="{{ url_for('scoreboard') }}"><i class="fas fa-calendar-check"></i>Điểm phát biểu</a></li>
+          <li id="attendance-user"><a href="{{ url_for('attendanceuser') }}"><i class="fa-solid fa-check-square"></i> Điểm danh & Điểm phát biểu</a></li>
+          <li><a href="{{ url_for('ranking') }}" ><i class="fas fa-trophy"></i> Bảng xếp hạng</a></li>
+          <li><a href="{{ url_for('profile') }} " class="active"><i class="fas fa-user"></i> Thông tin cá nhân</a></li>
         </ul>
       </nav>
       <button class="upgrade-btn">
@@ -58,7 +59,7 @@
           <button class="action-button">
             <i class="fas fa-bell"></i>
           </button>
-          <a href="sign-in.html" class="action-button">
+          <a href="/" class="action-button">
             <i class="fa-solid fa-right-from-bracket" style="color: #e73673;"></i>
           </a>
         </div>
@@ -143,10 +144,10 @@
         </form>
       </div>
     <!--   Core JS Files   -->
-    <script src="../assets/js/core/popper.min.js"></script>
-    <script src="../assets/js/core/bootstrap.min.js"></script>
-    <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="{{ url_for('static', filename='js/core/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/core/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/plugins/perfect-scrollbar.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/plugins/smooth-scrollbar.min.js') }}"></script>
     <script>
       var win = navigator.platform.indexOf("Win") > -1;
       if (win && document.querySelector("#sidenav-scrollbar")) {
@@ -157,7 +158,7 @@
       }
     </script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <script src="../assets/js/material-dashboard.min.js?v=3.0.0"></script>
-    <script src="../assets/js/cookie.js"></script>
+    <script src="{{ url_for('static',filename="js/material-dashboard.min.js")}}?v=3.0.0"></script>
+    <script src="{{ url_for('static',filename="js/cookie.js")}}"></script>
   </body>
 </html>

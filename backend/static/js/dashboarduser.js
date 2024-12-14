@@ -6,7 +6,7 @@ async function fetchDashboardUsersInfo() {
         console.error("Token không tồn tại trong cookie!");
         return;
     }
-    const response = await fetch(`http://localhost:5000/api/dashboard/dashboard_info_users?id=${msv}`, {
+    const response = await fetch(`${domain}/api/dashboard/dashboard_info_users?id=${msv}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -43,6 +43,20 @@ const pieData = {
     },
   ],
 };
+
+const percentPieData = async ()=>{
+  try{
+    const absent = await fetch(`${domain}/api/dashboard/chart/absent_msv/${msv}`,
+      {
+        method:'GET',
+        credentials:'include'
+      }
+    )
+  }
+  catch(error){
+    console.log(error)
+  }
+}
 
 // Pie chart configuration
 const pieConfig = {
@@ -163,10 +177,3 @@ new Chart(ctxParticipation, {
     maintainAspectRatio: false,
   },
 });
-
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-  return null;
-}

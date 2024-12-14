@@ -8,7 +8,7 @@ async function login(event) {
     };
 
     try {
-        const response = await fetch('http://localhost:5000/api/auth/login', {
+        const response = await fetch(`${domain}/api/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -18,7 +18,7 @@ async function login(event) {
         });
         if (response.ok) {
             const result = await response.json();
-            const res = await fetch('http://localhost:5000/api/auth/role', {
+            const res = await fetch(`${domain}/api/auth/role`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -28,11 +28,12 @@ async function login(event) {
             });
             if(res.ok){
                 if(getCookie("role")=="admin"){
-                    window.location.href="dashboard.html"
+                    window.location.href="dashboard"
                 }
                 else{
-                    window.location.href="dashboarduser.html"
+                    window.location.href="dashboarduser"
                 }
+                console.log(document.cookie)
             }
         } else {
             const error = await response.json();

@@ -5,32 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
 
+    <!-- Tham chiếu đến Boxicons -->
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../assets/css/style.css" />
+    
+    <!-- Tham chiếu đến CSS tĩnh -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   </head>
 
   <body>
     <div class="form-container">
       <div class="col col-1">
         <div class="image-layer">
+          <!-- Sử dụng url_for để tham chiếu đến hình ảnh trong thư mục static -->
           <img
-            src="../assets/img/white-outline.png"
+            src="{{ url_for('static', filename='img/white-outline.png') }}"
             alt=""
             class="form-image-main"
           />
-          <img src="../assets/img/dots.png" class="form-image dots" alt="" />
-          <img src="../assets/img/coin.png" class="form-image coin" alt="" />
+          <img src="{{ url_for('static', filename='img/dots.png') }}" class="form-image dots" alt="" />
+          <img src="{{ url_for('static', filename='img/coin.png') }}" class="form-image coin" alt="" />
           <img
-            src="../assets/img/spring.png"
+            src="{{ url_for('static', filename='img/spring.png') }}"
             class="form-image spring"
             alt=""
           />
-          <img src="../assets/img/3.png" class="form-image rocket" alt="" />
-          <img src="../assets/img/cloud.png" class="form-image cloud" alt="" />
-          <img src="../assets/img/stars.png" class="form-image stars" alt="" />
+          <img src="{{ url_for('static', filename='img/3.png') }}" class="form-image rocket" alt="" />
+          <img src="{{ url_for('static', filename='img/cloud.png') }}" class="form-image cloud" alt="" />
+          <img src="{{ url_for('static', filename='img/stars.png') }}" class="form-image stars" alt="" />
         </div>
         <p class="featured-words">Welcome <span>Nhóm 1 thuộc Cụm 1</span></p>
       </div>
@@ -91,6 +95,8 @@
       </div>
     </div>
   </body>
-  <script src="../assets/js/cookie.js"></script>
-  <script src="../assets/js/login.js"></script>
+  
+  <!-- Tham chiếu đến các tệp JavaScript trong thư mục static -->
+  <script src="{{ url_for('static', filename='js/cookie.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/login.js') }}"></script>
 </html>

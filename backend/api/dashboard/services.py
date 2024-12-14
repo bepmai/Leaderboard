@@ -105,6 +105,22 @@ def get_absent_student(request):
         "data": result_list
     }), 200
 
+def get_absent_student_by_msv(msv,request):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    result_list = []
+    
+    cursor.execute("SELECT COUNT(MSV) as ABSEND_STD FROM ATTENDANCE_OF_DAY WHERE ABSENT = 'v' and MSV = ?",(msv,))
+    absent_student = cursor.fetchone()[0]
+    
+    result_list.append(absent_student)
+    cursor.close()
+
+    return jsonify({
+        "message": "Point fetched successfully!",
+        "data": result_list
+    }), 200
+
 def get_absent_student_by_day(request):
     connection = get_db_connection()
     cursor = connection.cursor()
@@ -124,7 +140,28 @@ def get_absent_student_by_day(request):
         "message": "Point fetched successfully!",
         "data": result_list
     }), 200
+
+def get_absent_student_by_day_by_msv(msv,request):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    result_list = []
     
+    cursor.execute("SELECT COUNT(MSV) as ALL_STD FROM ATTENDANCE_OF_DAY WHERE ABSENT != 'v' and day =? and MSV= ?",(request,msv,))
+    total_student = cursor.fetchone()[0]
+    
+    cursor.execute("SELECT COUNT(MSV) as ABSEND_STD FROM ATTENDANCE_OF_DAY WHERE ABSENT = 'v' and day = ? and MSV= ?",(request,msv,))
+    absent_student = cursor.fetchone()[0]
+    
+    result_list.append(absent_student)
+    result_list.append(total_student)
+    cursor.close()
+
+    return jsonify({
+        "message": "Point fetched successfully!",
+        "data": result_list
+    }), 200
+    
+
 def get_stated_all_student_by_day(request):
     connection = get_db_connection()
     cursor = connection.cursor()
