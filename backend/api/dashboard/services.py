@@ -194,12 +194,12 @@ def get_stated_student_by_day(day,request):
         "data": result_list
     }), 200
     
-def get_stated_all_student_by_day(day,request):
+def get_stated_all_student_by_day_by_msv(day,request):
     connection = get_db_connection()
     cursor = connection.cursor()
     result_list = []
     msv = request.args.get("MSV")
-    cursor.execute("SELECT SUM(stated) FROM ATTENDANCE_of_day WHERE and day =?",(msv,day))
+    cursor.execute("SELECT SUM(stated) FROM ATTENDANCE_of_day WHERE msv = ? and day =?",(msv,day))
     total_student = cursor.fetchone()[0]
 
     result_list.append(total_student)
@@ -213,10 +213,24 @@ def get_stated_all_student_by_day(day,request):
 def get_stated_of_user_in_group(student):
     connection = get_db_connection()
     cursor = connection.cursor()
-    cursor.execute("SELECT GO_TO_the_board FROM SCORE_BOARDS WHERE MSV = ?",(student,))
+    cursor.execute("SELECT GO_TO_the_board,Summarize_Mindmap,code_sytem FROM SCORE_BOARDS WHERE MSV = ?",(student,))
     state = cursor.fetchone()
+    result = dict(state)
     return jsonify({
         "message":"Point fetched successfully!",
-        "data":state[0]
+        "data":result
     }),200
+    
+def get_name_of_user_in_group(request):
+    connection = get_db_connection()
+    cursor= connection.cursor()
+    cursor.execute("SELECT msv,last_name FROM SCORE_BOARDS")
+    names = cursor.fetchall()
+    result = [row[1] for row in names]
+    resultMSV = [row[0] for row in names]
+    return jsonify({
+        "message":"Point fetched successfully!",
+        "data":[resultMSV,result]
+    }),200
+
 

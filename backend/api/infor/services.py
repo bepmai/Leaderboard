@@ -39,7 +39,7 @@ def get_infor(request):
 
         url = "https://sinhvien1.tlu.edu.vn/education/api/studentsummarymark/getbystudent"
         headers = {
-            "Authorization": f"Bearer {token}"
+            "Authorization": f"Bearer 49bc4143-1229-473a-ba3e-30fef16a4ae3"
         }
         response = requests.get(url, headers=headers, timeout=10, verify=False)
         response.raise_for_status()
@@ -55,7 +55,8 @@ def get_infor(request):
             "speciality":data.get("student").get("enrollmentClass").get("speciality").get("name"),
             "phoneNumber":data.get("student").get("phoneNumber"),
             "dateOfBirth":data.get("student").get("birthDateString"),
-            "address":data.get("student").get("birthPlace")
+            "address":data.get("student").get("birthPlace"),
+            "email":data.get("student").get("user").get("email")
         }
         return jsonify({
             "message": "Fetched successfully!",

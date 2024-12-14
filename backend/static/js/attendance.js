@@ -1,3 +1,9 @@
+if(getCookie('token')==null){
+  window.location.href="/"
+}
+if(getCookie('role')!="admin"){
+  window.location.href="dashboarduser"
+}
 async function fetchAttendaceAmin() {
     try {
       const response = await fetch(`${domain}/api/attendance/attendance_admin`, {

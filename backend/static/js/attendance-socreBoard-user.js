@@ -1,3 +1,6 @@
+if(getCookie('token')==null){
+  window.location.href="/"
+}
 async function fetchAttendaceUsers() {
     try {
       const msv = getCookie('msv');
