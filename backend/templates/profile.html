@@ -72,11 +72,11 @@
           <div class="profile-info">
             <div class="avatar-container">
               <img src="/assets/img/anhhau.jpg" alt="Avatar" class="avatar">
-              <div class="badge">Hậu</div>
+              <div class="badge" id="lastname">TLUer</div>
             </div>
             <div class="name-email">
-              <h3>Triệu Thị Hậu</h3>
-              <p>trieuthihau2810@gmail.com</p>
+              <h3 id="fullname">Sinh viên Thủy Lợi</h3>
+              <p id ="email">tlu@gmail.com</p>
             </div>
           </div>
         </div>
@@ -87,22 +87,15 @@
           </div>
           <div class="form-group">
             <label for="class">Lớp(*)</label>
-            <div class="input-icon">
-              <select id="class" class="form-control">
-                <option value="" disabled selected>Chọn lớp</option>
-                <option value="IT1">63HTTT1</option>
-                <option value="IT2">63HTTT2</option>
-              </select>
-              <i class="fa-solid fa-chevron-down"></i>
-            </div>
+            <input type="text" id="class">
           </div>
           <div class="form-group">
             <label for="class">Khóa(*)</label>
-            <input type="text" id="class">
+            <input type="text" id="class-year">
           </div>
           <div class="form-group">
             <label for="class">Khoa(*)</label>
-            <input type="text" id="class">
+            <input type="text" id="class-department">
           </div>
           <div class="form-group">
             <label for="major">Ngành học(*)</label>
@@ -117,9 +110,9 @@
             <div class="input-icon">
               <select id="gender" class="form-control">
                 <option value="" disabled selected>Chọn giới tính</option>
-                <option value="male">Nam</option>
-                <option value="female">Nữ</option>
-                <option value="other">Khác</option>
+                <option value="M">Nam</option>
+                <option value="F">Nữ</option>
+                <option value="O">Khác</option>
               </select>
               <i class="fa-solid fa-chevron-down"></i>
             </div>
@@ -144,6 +137,7 @@
         </form>
       </div>
     <!--   Core JS Files   -->
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
     <script src="{{ url_for('static', filename='js/core/popper.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/core/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/plugins/perfect-scrollbar.min.js') }}"></script>
@@ -160,5 +154,6 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script src="{{ url_for('static',filename="js/material-dashboard.min.js")}}?v=3.0.0"></script>
     <script src="{{ url_for('static',filename="js/cookie.js")}}"></script>
+    <script src="{{ url_for('static',filename="js/profile.js")}}"></script>
   </body>
 </html>
