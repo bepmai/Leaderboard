@@ -2,6 +2,20 @@ if (getCookie('token') == null) {
   window.location.href = "/"
 }
 const msv = getCookie('msv');
+const socket = io();
+
+function joinRoom() {
+  if (msv) {
+    socket.emit('join', { 'msv': msv });
+  }
+}
+
+joinRoom();
+
+socket.on('receive_data', function(data) {
+  fetchDashboardUsersInfo();
+});
+
 async function fetchDashboardUsersInfo() {
   try {
     if (!msv) {
@@ -14,8 +28,7 @@ async function fetchDashboardUsersInfo() {
         'Content-Type': 'application/json'
       },
       credentials: 'include'
-    });
-
+    })
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }

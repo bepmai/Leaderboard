@@ -4,6 +4,22 @@ if(getCookie('token')==null){
 if(getCookie('role')!="admin"){
   window.location.href="dashboarduser"
 }
+const msv = getCookie('msv');
+const socket = io();
+
+function joinRoom() {
+  if (msv) {
+    socket.emit('join', { 'msv': msv });
+  }
+}
+
+joinRoom();
+
+socket.on('receive_data', function(data) {
+  fetchAttendaceAmin();
+  fetchDashboardInfo();
+});
+
 async function fetchAttendaceAmin() {
     try {
       const response = await fetch(`${domain}/api/attendance/attendance_admin`, {

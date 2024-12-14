@@ -6,6 +6,20 @@ if(getCookie('role')!="admin"){
 }
 var allsv;
 const msv = getCookie('msv');
+const socket = io();
+
+function joinRoom() {
+  if (msv) {
+    socket.emit('join', { 'msv': msv });
+  }
+}
+
+joinRoom();
+
+socket.on('receive_data', function(data) {
+  fetchDashboardInfo();
+});
+
 async function fetchDashboardInfo() {
   try {
     const token = getCookie("token");

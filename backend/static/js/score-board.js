@@ -4,6 +4,21 @@ if(getCookie('token')==null){
 if(getCookie('role')!="admin"){
   window.location.href="dashboarduser"
 }
+const msv = getCookie('msv');
+const socket = io();
+
+function joinRoom() {
+  if (msv) {
+    socket.emit('join', { 'msv': msv });
+  }
+}
+
+joinRoom();
+
+socket.on('receive_data', function(data) {
+  fetchSoreBoardAdmin();
+});
+
 async function fetchSoreBoardAdmin() {
     try {
       const response = await fetch(`${domain}/api/score_board/score_board_admin`, {
