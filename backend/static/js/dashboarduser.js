@@ -1,5 +1,16 @@
 const msv = getCookie('msv');
 
+const socket = io();
+
+// Khi người dùng join room
+function joinRoom() {
+  if (msv) {
+    socket.emit('join', { 'msv': msv });
+  }
+}
+
+joinRoom();
+
 async function fetchDashboardUsersInfo() {
   try {
     if (!msv) {

@@ -2,6 +2,7 @@
 //   window.location.href="dashboarduser"
 // }
 const msv = getCookie('msv');
+
 async function fetchDashboardInfo() {
   try {
     const token = getCookie("token");
@@ -10,7 +11,7 @@ async function fetchDashboardInfo() {
         console.error("Token không tồn tại trong cookie!");
         return;
     }
-    const response = await fetch(`${domain}/api/dashboard/dashboard_info_admin`, {
+    const response = await fetch(`http://localhost:5000/api/dashboard/dashboard_info_admin`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
