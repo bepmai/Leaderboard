@@ -1,12 +1,26 @@
+const msv = getCookie('msv');
+const socket = io();
+
+function joinRoom() {
+  if (msv) {
+    socket.emit('join', { 'msv': msv });
+  }
+}
+
+joinRoom();
+
+socket.on('receive_data', function(data) {
+  fetchAttendaceUsers();
+  fetchSoreBoardUsers();
+});
+
 async function fetchAttendaceUsers() {
     try {
-      const msv = getCookie('msv');
-  
       if (!msv) {
           console.error("Token không tồn tại trong cookie!");
           return;
       }
-      const response = await fetch(`${domain}/api/attendance/attendance_users?id=${msv}`, {
+      const response = await fetch(`http://localhost:5000/api/attendance/attendance_users?id=${msv}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
@@ -19,6 +33,8 @@ async function fetchAttendaceUsers() {
       console.log("Dữ liệu nhận được:", data);
 
       const tableBody = document.getElementById("AttendceTable"); // Lấy phần <tbody> của bảng
+
+      tableBody.innerHTML = "";
 
         const row = document.createElement("tr");
 
@@ -78,6 +94,8 @@ async function fetchSoreBoardUsers() {
       console.log("Dữ liệu nhận được:", data);
 
       const tableBody = document.getElementById("SoreBoardTable"); // Lấy phần <tbody> của bảng
+
+      tableBody.innerHTML = "";
 
         const row = document.createElement("tr");
 

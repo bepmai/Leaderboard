@@ -75,9 +75,9 @@ def get_score_board_users(request):
             connection.close()
 
             return jsonify({
-            "message": "Score board fetched successfully!",
-            "data": student_data
-        }), 200
+                "message": "Score board fetched successfully!",
+                "data": student_data
+            }), 200
         else:
             return jsonify({"message": f"Error occurred: Không tìm thấy dữ liệu"}), 500
     else:

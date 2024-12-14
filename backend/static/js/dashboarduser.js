@@ -2,7 +2,6 @@ const msv = getCookie('msv');
 
 const socket = io();
 
-// Khi người dùng join room
 function joinRoom() {
   if (msv) {
     socket.emit('join', { 'msv': msv });
@@ -11,13 +10,17 @@ function joinRoom() {
 
 joinRoom();
 
+socket.on('receive_data', function(data) {
+  fetchDashboardUsersInfo();
+});
+
 async function fetchDashboardUsersInfo() {
   try {
     if (!msv) {
         console.error("Token không tồn tại trong cookie!");
         return;
     }
-    const response = await fetch(`${domain}/api/dashboard/dashboard_info_users?id=${msv}`, {
+    const response = await fetch(`http://localhost:5000/api/dashboard/dashboard_info_users?id=${msv}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
