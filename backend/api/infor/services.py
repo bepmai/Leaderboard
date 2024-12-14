@@ -39,7 +39,7 @@ def get_infor(request):
 
         url = "https://sinhvien1.tlu.edu.vn/education/api/studentsummarymark/getbystudent"
         headers = {
-            "Authorization": f"Bearer ${token}"
+            "Authorization": f"Bearer {token}"
         }
         response = requests.get(url, headers=headers, timeout=10, verify=False)
         response.raise_for_status()
