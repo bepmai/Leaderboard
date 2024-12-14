@@ -1,3 +1,6 @@
+if (getCookie('token') == null) {
+  window.location.href = "/"
+}
 // if(getCookie('role')!="admin"){
 //   window.location.href="dashboarduser"
 // }
@@ -7,15 +10,15 @@ async function fetchDashboardInfo() {
     const token = getCookie("token");
 
     if (!token) {
-        console.error("Token không tồn tại trong cookie!");
-        return;
+      console.error("Token không tồn tại trong cookie!");
+      return;
     }
     const response = await fetch(`${domain}/api/dashboard/dashboard_info_admin`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials:'include'
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
     });
 
     if (!response.ok) {
@@ -39,8 +42,8 @@ document.addEventListener("DOMContentLoaded", fetchDashboardInfo);
 
 function checkLoginStatus() {
   const msv = getCookie('msv');
-  if(!msv){
-    window.location.href="sign-in.html"
+  if (!msv) {
+    window.location.href = "sign-in.html"
   }
 }
 
@@ -68,13 +71,12 @@ const pieData = {
   labels: ["Đi học", "Nghỉ học"],
   datasets: [
     {
-      data: [85, 15], // Tỷ lệ %
+      data: [80, 20], // Tỷ lệ % ban đầu
       backgroundColor: ["#3498db", "#e74c3c"], // Màu sắc
     },
   ],
 };
 
-// Pie chart configuration
 const pieConfig = {
   type: "pie",
   data: pieData,
@@ -110,9 +112,45 @@ const pieConfig = {
   plugins: [ChartDataLabels], // Kích hoạt plugin
 };
 
-// Render pie chart
+const pieGetData = async () => {
+  try {
+    const response = await fetch(`${domain}/api/dashboard/chart/absent`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+    });
+
+    const absentData = await response.json();
+    const absentPercent = absentData.data[0] / (absentData.data[1] * 15 / 100);
+    const attendancePercent = (15 * absentData.data[1] - absentData.data[0]) / (absentData.data[1] * 15 / 100);
+
+    // Làm tròn giá trị
+    const roundedAbsentPercent = Math.round(absentPercent * 100) / 100;
+    const roundedAttendancePercent = Math.round(attendancePercent * 100) / 100;
+
+    // Cập nhật dữ liệu
+    const data = [roundedAttendancePercent, roundedAbsentPercent];
+    pieConfig.data.datasets[0].data = data;
+
+    if (chartInstance) {
+      chartInstance.update();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Tạo biểu đồ khi trang được tải
 const ctx = document.getElementById("pieChart").getContext("2d");
-new Chart(ctx, pieConfig);
+const chartInstance =new Chart(ctx, pieConfig);
+
+pieGetData();
+
+
+// Render pie chart
+
 
 const lineData = {
   labels: ["11/11", "15/11", "19/11", "22/11", "26/11", "29/11", "3/12", "6/12", "10/12", "0/12", "0/12", "0/12", "0/12", "0/12", "0/12"], // Ngày
@@ -157,7 +195,25 @@ const lineConfig = {
 };
 
 // Render line chart
-new Chart(document.getElementById("lineChart"), lineConfig);
+const lineChartInstance = new Chart(document.getElementById("lineChart"), lineConfig);
+
+const lineGetData = async ()=>{
+  try{
+    const list = []
+    for(let i=1;i<=15;i++){
+      const response = await fetch(`${domain}/api/dashboard/chart/absent`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      });
+    }
+  }
+  catch(error){
+    console.log(error)
+  }
+}
 // Biểu đồ đường: Số lần phát biểu lớp
 const ctxParticipation = document.getElementById('chartParticipation').getContext('2d');
 new Chart(ctxParticipation, {
