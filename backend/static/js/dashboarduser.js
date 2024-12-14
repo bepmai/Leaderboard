@@ -157,7 +157,7 @@ lineChartInstance = new Chart(ctx, lineConfig);
 const ctxParticipation = document
   .getElementById("chartParticipation")
   .getContext("2d");
-charClusterState = new Chart(ctxParticipation, {
+const charClusterState = new Chart(ctxParticipation, {
   type: "line",
   data: {
     labels: ["Lên bảng", "Mindmap tổng hợp", "Code hệ thống"],
@@ -245,8 +245,7 @@ const clusterGetData = async () => {
       credentials: 'include'
     });
     const responses = await request.json();
-    console.log(responses)
-    const list= [responses.data[0],responses.data[1],responses.data[2]]
+    const list= [responses.data["Go_to_the_board"],responses.data["Summarize_Mindmap"],responses.data["code_sytem"]];
     charClusterState.data.datasets[0].data = list;
     if (charClusterState) {
       charClusterState.update()
