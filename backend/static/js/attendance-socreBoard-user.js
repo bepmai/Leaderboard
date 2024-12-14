@@ -6,7 +6,7 @@ async function fetchAttendaceUsers() {
           console.error("Token không tồn tại trong cookie!");
           return;
       }
-      const response = await fetch(`http://localhost:5000/api/attendance/attendance_users?id=${msv}`, {
+      const response = await fetch(`${domain}/api/attendance/attendance_users?id=${msv}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
@@ -65,7 +65,7 @@ async function fetchSoreBoardUsers() {
           console.error("Token không tồn tại trong cookie!");
           return;
       }
-      const response = await fetch(`http://localhost:5000/api/score_board/score_board_users?id=${msv}`, {
+      const response = await fetch(`${domain}/api/score_board/score_board_users?id=${msv}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
