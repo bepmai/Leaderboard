@@ -5,6 +5,16 @@ const userattend = document.getElementById("attendance-user")
 const adminattend = document.getElementById("attendance-admin")
 const stated = document.getElementById("stated-user")
 const tongquan = document.getElementById("tongquan")
+const socket = io();
+
+function joinRoom() {
+    if (getCookie('msv')) {
+        socket.emit('join', { 'msv': getCookie('msv') });
+    }
+}
+
+joinRoom();
+
 if (getCookie('role') == "admin") {
 }
 else {
@@ -15,7 +25,9 @@ else {
 const ranking = document.getElementById("ranking");
 const getDataRanking = async () => {
     try {
-        const response = await fetch(`${domain}/api/leaderboard/getLeaderClass`);
+        const response = await fetch(`${domain}/api/leaderboard/getLeaderClass`,{
+            credentials:'include'
+        });
         const data = await response.json();
         const rows = []
         for (let index = 0; index < data.data.length; index++) {
@@ -74,6 +86,8 @@ const getDataRanking = async () => {
         console.log(error)
     }
 }
+getDataRanking()
 socket.on('receive_data', function (data) {
+    console.log('receive_data')
     getDataRanking()
 });
