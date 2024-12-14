@@ -4,12 +4,13 @@ if (getCookie('token') == null) {
 const userattend = document.getElementById("attendance-user")
 const adminattend = document.getElementById("attendance-admin")
 const stated = document.getElementById("stated-user")
+const tongquan = document.getElementById("tongquan")
 if (getCookie('role') == "admin") {
-    userattend.classList.add("hidden")
 }
 else {
     adminattend.classList.add("hidden")
     stated.classList.add("hidden")
+    tongquan.classList.add("hidden")
 }
 const ranking = document.getElementById("ranking");
 const getDataRanking = async () => {
@@ -45,7 +46,7 @@ const getDataRanking = async () => {
             nameCell.textContent = member.first_name + " " + member.last_name;
 
             const attendanceCell = document.createElement('td');
-            attendanceCell.textContent =15- member.absent;
+            attendanceCell.textContent = 15 - member.absent;
 
             const speechScoreCell = document.createElement('td');
             speechScoreCell.textContent = member.point_class;
@@ -65,7 +66,7 @@ const getDataRanking = async () => {
 
             rows.push(row);
         };
-        rows.forEach(row=>{
+        rows.forEach(row => {
             ranking.appendChild(row);
         })
     }
@@ -73,5 +74,6 @@ const getDataRanking = async () => {
         console.log(error)
     }
 }
-
-getDataRanking()
+socket.on('receive_data', function (data) {
+    getDataRanking()
+});

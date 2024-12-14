@@ -16,8 +16,8 @@ def is_request_from_ngrok():
         return ".localhost"
     return ".ngrok-free.app"
 
-# domain=".localhost"
-domain="secure-koi-wholly.ngrok-free.app"
+domain=".localhost"
+# domain="secure-koi-wholly.ngrok-free.app"
 
 def get_db_connection():
     connection = sqlite3.connect('./database/database.db')
@@ -33,7 +33,6 @@ def login(request):
         url = 'https://sinhvien1.tlu.edu.vn/education/oauth/token'
         role = "normal"
         state = "online"
-
         if username == "2151160519" or username == "2151163724":
             role = "admin"
 

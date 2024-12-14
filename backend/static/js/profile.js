@@ -4,12 +4,14 @@ if(getCookie('token')==null){
 const userattend = document.getElementById("attendance-user")
 const adminattend = document.getElementById("attendance-admin")
 const stated = document.getElementById("stated-user")
+const tongquan = document.getElementById("tongquan")
+
 if(getCookie('role')=="admin"){ 
-    userattend.classList.add("hidden")
 }
 else{
     adminattend.classList.add("hidden")
     stated.classList.add("hidden")
+    tongquan.classList.add("hidden")
 }
 
 const msv = document.getElementById("student-id");
