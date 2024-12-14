@@ -14,6 +14,17 @@ def get_db_connection():
 
 def get_dashboard_info_admin(request):
     try:
+        response = requests.get(attendance_URL)
+        if response.status_code == 200:
+            data = response.json()
+
+            if data:
+                del data[0]  # Hoặc: data.pop(0)
+
+            update_attendace_table(data)
+        else:
+            return jsonify({"message": f"Error occurred: {response.status_code}"}), 500
+    
         connection = get_db_connection()
         cursor = connection.cursor()
 
@@ -78,8 +89,6 @@ def get_dashboard_info_users(request):
         response = requests.get(attendance_URL)
         if response.status_code == 200:
             data = response.json()
-
-            id = request.args.get('id')
 
             student_data = [record for record in data if record.get("Mã sinh viên") == id]
         

@@ -2,15 +2,22 @@
 //   window.location.href="dashboarduser"
 // }
 const msv = getCookie('msv');
+const socket = io();
+
+function joinRoom() {
+  if (msv) {
+    socket.emit('join', { 'msv': msv });
+  }
+}
+
+joinRoom();
+
+socket.on('receive_data', function(data) {
+  fetchDashboardInfo();
+});
 
 async function fetchDashboardInfo() {
   try {
-    const token = getCookie("token");
-
-    if (!token) {
-        console.error("Token không tồn tại trong cookie!");
-        return;
-    }
     const response = await fetch(`http://localhost:5000/api/dashboard/dashboard_info_admin`, {
         method: 'GET',
         headers: {
