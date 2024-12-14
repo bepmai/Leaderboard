@@ -33,7 +33,6 @@ def login(request):
         url = 'https://sinhvien1.tlu.edu.vn/education/oauth/token'
         role = "normal"
         state = "online"
-
         if username == "2151160519" or username == "2151163724":
             role = "admin"
 
