@@ -3,7 +3,17 @@ if (getCookie('token') == null) {
 }
 const msv = getCookie('msv');
 const socket = io();
+const diemdanh = document.getElementById("diemdanh")
+const diemphatbieu = document.getElementById("diemphatbieu")
+const tongquan = document.getElementById("tongquan")
+if (getCookie('role') == "admin") {
 
+}
+else {
+  diemdanh.remove()
+  diemphatbieu.remove()
+  tongquan.remove()
+}
 function joinRoom() {
   if (msv) {
     socket.emit('join', { 'msv': msv });
@@ -12,9 +22,7 @@ function joinRoom() {
 
 joinRoom();
 
-socket.on('receive_data', function(data) {
-  fetchDashboardUsersInfo();
-});
+
 
 async function fetchDashboardUsersInfo() {
   try {
@@ -245,7 +253,7 @@ const clusterGetData = async () => {
       credentials: 'include'
     });
     const responses = await request.json();
-    const list= [responses.data["Go_to_the_board"],responses.data["Summarize_Mindmap"],responses.data["code_sytem"]];
+    const list = [responses.data["Go_to_the_board"], responses.data["Summarize_Mindmap"], responses.data["code_sytem"]];
     charClusterState.data.datasets[0].data = list;
     if (charClusterState) {
       charClusterState.update()
@@ -258,3 +266,9 @@ const clusterGetData = async () => {
 pieGetData()
 lineGetData()
 clusterGetData()
+socket.on('receive_data', function (data) {
+  fetchDashboardUsersInfo();
+  pieGetData()
+  lineGetData()
+  clusterGetData()
+});

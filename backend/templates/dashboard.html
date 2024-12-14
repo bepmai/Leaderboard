@@ -20,10 +20,11 @@
         </div>
         <nav>
           <ul>
-            <li><a href="{{ url_for('dashboarduser') }}" class="active"><i class="fas fa-chart-pie"></i> Trang chủ</a></li>
-            <li><a href="{{ url_for('dashboard') }}"><i class="fas fa-chart-pie"></i> Tổng quan</a></li>
+            <li><a href="{{ url_for('dashboarduser') }}"><i class="fas fa-chart-pie"></i> Trang chủ</a></li>
+            <li><a href="{{ url_for('dashboard') }}"  class="active"><i class="fas fa-chart-pie"></i> Tổng quan</a></li>
             <li><a href="{{ url_for('attendance') }}"><i class="fa-solid fa-check-square"></i> Điểm danh</a></li>
             <li><a href="{{ url_for('scoreboard') }}"><i class="fas fa-calendar-check"></i>Điểm phát biểu</a></li>
+            <li><a href="{{ url_for('attendanceuser') }}"><i class="fa-solid fa-check-square"></i> Điểm danh & Điểm phát biểu</a></li>
             <li><a href="{{ url_for('ranking') }}" ><i class="fas fa-trophy"></i> Bảng xếp hạng</a></li>
             <li><a href="{{ url_for('profile') }}"><i class="fas fa-user"></i> Thông tin cá nhân</a></li>
           </ul>

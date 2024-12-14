@@ -1,8 +1,8 @@
 if (getCookie('token') == null) {
   window.location.href = "/"
 }
-if(getCookie('role')!="admin"){
-  window.location.href="dashboarduser"
+if (getCookie('role') != "admin") {
+  window.location.href = "dashboarduser"
 }
 var allsv;
 const msv = getCookie('msv');
@@ -16,9 +16,6 @@ function joinRoom() {
 
 joinRoom();
 
-socket.on('receive_data', function(data) {
-  fetchDashboardInfo();
-});
 
 async function fetchDashboardInfo() {
   try {
@@ -416,8 +413,12 @@ const clusterGetData = async () => {
     console.log(error)
   }
 }
+socket.on('receive_data', function (data) {
+  fetchDashboardInfo();
+  pieGetData();
+  lineGetData();
+  partyGetData();
+  clusterGetData();
+});
 
-pieGetData();
-lineGetData();
-partyGetData();
-clusterGetData();
+
