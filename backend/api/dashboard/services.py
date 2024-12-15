@@ -2,6 +2,10 @@ from flask import Flask, render_template, request
 from flask import jsonify
 import sqlite3
 import requests
+from api.attendance.services import update_attendace_table
+
+score_board_URL = "https://sheetdb.io/api/v1/hxr0hvr4g1ftk"
+attendance_URL = "https://sheetdb.io/api/v1/ki61n94i86kj3"
 
 def get_db_connection():
     connection = sqlite3.connect('./database/database.db')
@@ -10,6 +14,17 @@ def get_db_connection():
 
 def get_dashboard_info_admin(request):
     try:
+        response = requests.get(attendance_URL)
+        if response.status_code == 200:
+            data = response.json()
+
+            if data:
+                del data[0]  # Hoặc: data.pop(0)
+
+            update_attendace_table(data)
+        else:
+            return jsonify({"message": f"Error occurred: {response.status_code}"}), 500
+    
         connection = get_db_connection()
         cursor = connection.cursor()
 
@@ -39,6 +54,50 @@ def get_dashboard_info_admin(request):
 def get_dashboard_info_users(request):
     try:
         id = request.args.get('id')
+        response = requests.get(score_board_URL)
+        if response.status_code == 200:
+            data = response.json()
+
+            student_data = [record for record in data if record.get("Mã sinh viên") == id]
+        
+            if student_data:
+                connection = get_db_connection()
+                cursor = connection.cursor()
+
+                for item in student_data:
+                    cursor.execute("SELECT * FROM score_boards WHERE msv = ?", (item['Mã sinh viên'],))
+                    exists = cursor.fetchone()
+
+                    if exists:
+                        cursor.execute(
+                            "UPDATE score_boards SET stt = ?, first_name = ?,last_name = ?,class = ?,Go_to_the_board = ?,Summarize_Mindmap = ?,code_sytem = ?,Total = ? WHERE msv = ?",
+                            (item['STT'], item['Họ '],item['Tên'], item['Lớp'], item['Lên bảng'],item['Mindmap tổng hợp'], item['Code hệ thống'],item['Tổng điểm tích cực'],item['Mã sinh viên']) 
+                        )
+                    else:
+                        cursor.execute(
+                            "INSERT INTO score_boards (msv, stt, first_name,last_name,class,Go_to_the_board,Summarize_Mindmap,code_sytem,Total) VALUES (?, ?, ?,?, ?, ?,?, ?, ?)",
+                            (item['Mã sinh viên'], item['STT'], item['Họ '],item['Tên'], item['Lớp'], item['Lên bảng'],item['Mindmap tổng hợp'], item['Code hệ thống'],item['Tổng điểm tích cực']) 
+                        )
+
+                connection.commit()
+                connection.close()
+            else:
+                return jsonify({"message": f"Error occurred: Không tìm thấy dữ liệu"}), 500
+        else:
+            return jsonify({"message": f"Error occurred: {response.status_code}"}), 500
+        
+        response = requests.get(attendance_URL)
+        if response.status_code == 200:
+            data = response.json()
+
+            student_data = [record for record in data if record.get("Mã sinh viên") == id]
+        
+            if student_data:
+                update_attendace_table(student_data)
+            else:
+                return jsonify({"message": f"Error occurred: Không tìm thấy dữ liệu"}), 500
+        else:
+            return jsonify({"message": f"Error occurred: {response.status_code}"}), 500
 
         connection = get_db_connection()
         cursor = connection.cursor()
@@ -194,12 +253,12 @@ def get_stated_student_by_day(day,request):
         "data": result_list
     }), 200
     
-def get_stated_all_student_by_day(day,request):
+def get_stated_all_student_by_day_by_msv(day,request):
     connection = get_db_connection()
     cursor = connection.cursor()
     result_list = []
     msv = request.args.get("MSV")
-    cursor.execute("SELECT SUM(stated) FROM ATTENDANCE_of_day WHERE and day =?",(msv,day))
+    cursor.execute("SELECT SUM(stated) FROM ATTENDANCE_of_day WHERE msv = ? and day =?",(msv,day))
     total_student = cursor.fetchone()[0]
 
     result_list.append(total_student)
@@ -213,10 +272,24 @@ def get_stated_all_student_by_day(day,request):
 def get_stated_of_user_in_group(student):
     connection = get_db_connection()
     cursor = connection.cursor()
-    cursor.execute("SELECT GO_TO_the_board FROM SCORE_BOARDS WHERE MSV = ?",(student,))
+    cursor.execute("SELECT GO_TO_the_board,Summarize_Mindmap,code_sytem FROM SCORE_BOARDS WHERE MSV = ?",(student,))
     state = cursor.fetchone()
+    result = dict(state)
     return jsonify({
         "message":"Point fetched successfully!",
-        "data":state[0]
+        "data":result
     }),200
+    
+def get_name_of_user_in_group(request):
+    connection = get_db_connection()
+    cursor= connection.cursor()
+    cursor.execute("SELECT msv,last_name FROM SCORE_BOARDS")
+    names = cursor.fetchall()
+    result = [row[1] for row in names]
+    resultMSV = [row[0] for row in names]
+    return jsonify({
+        "message":"Point fetched successfully!",
+        "data":[resultMSV,result]
+    }),200
+
 

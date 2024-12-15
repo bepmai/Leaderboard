@@ -1,27 +1,50 @@
+if (getCookie('token') == null) {
+  window.location.href = "/"
+}
 const msv = getCookie('msv');
+const socket = io();
+const diemdanh = document.getElementById("diemdanh")
+const diemphatbieu = document.getElementById("diemphatbieu")
+const tongquan = document.getElementById("tongquan")
+if (getCookie('role') == "admin") {
+
+}
+else {
+  diemdanh.remove()
+  diemphatbieu.remove()
+  tongquan.remove()
+}
+function joinRoom() {
+  if (msv) {
+    socket.emit('join', { 'msv': msv });
+  }
+}
+
+joinRoom();
+
+
 
 async function fetchDashboardUsersInfo() {
   try {
     if (!msv) {
-        console.error("Token không tồn tại trong cookie!");
-        return;
+      console.error("Token không tồn tại trong cookie!");
+      return;
     }
     const response = await fetch(`${domain}/api/dashboard/dashboard_info_users?id=${msv}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials:'include'
-    });
-
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+    })
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
     const data = await response.json();
 
-    document.getElementById("number_of_school_attendance").textContent = data.number_of_school_attendance + " người" || "N/A";
-    document.getElementById("number_of_break").textContent = data.number_of_break + " người" || "N/A";
+    document.getElementById("number_of_school_attendance").textContent = data.number_of_school_attendance + " buổi" || "N/A";
+    document.getElementById("number_of_break").textContent = data.number_of_break + " buổi" || "N/A";
     document.getElementById("Number_of_speeches_cluster").textContent = data.Number_of_speeches_cluster + " lần" || "N/A";
     document.getElementById("rank").textContent = "Thứ " + data.rank || "N/A";
 
@@ -44,26 +67,12 @@ const pieData = {
   ],
 };
 
-const percentPieData = async ()=>{
-  try{
-    const absent = await fetch(`${domain}/api/dashboard/chart/absent_msv/${msv}`,
-      {
-        method:'GET',
-        credentials:'include'
-      }
-    )
-  }
-  catch(error){
-    console.log(error)
-  }
-}
-
 // Pie chart configuration
 const pieConfig = {
   type: "pie",
   data: pieData,
   options: {
-    responsive: false, 
+    responsive: false,
     maintainAspectRatio: false,
     plugins: {
       tooltip: {
@@ -102,7 +111,7 @@ const pieConfig = {
 
 // Render pie chart
 const pieChart = document.getElementById("pieChart").getContext("2d");
-new Chart(pieChart, pieConfig);
+const chartInstance = new Chart(pieChart, pieConfig);
 const lineData = {
   labels: ["11/11", "15/11", "19/11", "22/11", "26/11", "29/11", "3/12", "6/12", "10/12", "0/12", "0/12", "0/12", "0/12", "0/12", "0/12"], // Ngày
   datasets: [
@@ -152,11 +161,11 @@ const lineConfig = {
 
 // Render biểu đồ - phat bieu
 const ctx = document.getElementById("lineChart").getContext("2d");
-new Chart(ctx, lineConfig);
+lineChartInstance = new Chart(ctx, lineConfig);
 const ctxParticipation = document
   .getElementById("chartParticipation")
   .getContext("2d");
-new Chart(ctxParticipation, {
+const charClusterState = new Chart(ctxParticipation, {
   type: "line",
   data: {
     labels: ["Lên bảng", "Mindmap tổng hợp", "Code hệ thống"],
@@ -176,4 +185,90 @@ new Chart(ctxParticipation, {
     responsive: false,
     maintainAspectRatio: false,
   },
+});
+const pieGetData = async () => {
+  try {
+    const response = await fetch(`${domain}/api/dashboard/chart/absent_msv/${msv}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+    });
+
+    const absentData = await response.json();
+    const absentPercent = absentData.data / (15 / 100);
+    const attendancePercent = (15 - absentData.data) / (15 / 100);
+    // Làm tròn giá trị
+    const roundedAbsentPercent = Math.round(absentPercent * 100) / 100;
+    const roundedAttendancePercent = Math.round(attendancePercent * 100) / 100;
+
+    // Cập nhật dữ liệu
+    const data = [roundedAttendancePercent, roundedAbsentPercent];
+    pieConfig.data.datasets[0].data = data;
+
+    if (chartInstance) {
+      chartInstance.update();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const lineGetData = async () => {
+  try {
+    const listatten = [];
+    const requests = [];
+    for (let i = 1; i <= 15; i++) {
+      const request = await fetch(`${domain}/api/dashboard/chart/absent_msv/${msv}/${i}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      });
+      requests.push(request);
+    }
+    const responses = await Promise.all(requests);
+    const dataList = await Promise.all(responses.map(response => response.json()));
+    for (let i = 0; i < dataList.length; i++) {
+      listatten.push(dataList[i].data[1])
+    }
+    lineData.datasets[0].data = listatten;
+    if (lineChartInstance) {
+      lineChartInstance.update();
+    }
+  }
+  catch (error) {
+    console.log(error)
+  }
+}
+const clusterGetData = async () => {
+  try {
+    const request = await fetch(`${domain}/api/dashboard/chart/stated/group/${msv}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+    });
+    const responses = await request.json();
+    const list = [responses.data["Go_to_the_board"], responses.data["Summarize_Mindmap"], responses.data["code_sytem"]];
+    charClusterState.data.datasets[0].data = list;
+    if (charClusterState) {
+      charClusterState.update()
+    }
+  }
+  catch (error) {
+    console.log(error)
+  }
+}
+pieGetData()
+lineGetData()
+clusterGetData()
+socket.on('receive_data', function (data) {
+  fetchDashboardUsersInfo();
+  pieGetData()
+  lineGetData()
+  clusterGetData()
 });

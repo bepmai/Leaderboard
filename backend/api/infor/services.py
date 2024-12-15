@@ -55,7 +55,8 @@ def get_infor(request):
             "speciality":data.get("student").get("enrollmentClass").get("speciality").get("name"),
             "phoneNumber":data.get("student").get("phoneNumber"),
             "dateOfBirth":data.get("student").get("birthDateString"),
-            "address":data.get("student").get("birthPlace")
+            "address":data.get("student").get("birthPlace"),
+            "email":data.get("student").get("user").get("email")
         }
         return jsonify({
             "message": "Fetched successfully!",

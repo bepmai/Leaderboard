@@ -10,7 +10,7 @@ def get_db_connection():
 def get_point_group(request):
     connection = get_db_connection()
     cursor = connection.cursor()
-    cursor.execute("SELECT MSV,absent,volunteer_group,point_group,point_project FROM point ORDER BY point_group DESC")
+    cursor.execute("SELECT point.MSV,attendances.first_name,attendances.last_name,point.absent,point.volunteer_group,point.point_group,point.point_project FROM point inner join attendances where point.msv = attendances.msv ORDER BY point_class DESC")
     result = cursor.fetchall()
     connection.commit()
     connection.close()
@@ -23,7 +23,7 @@ def get_point_group(request):
 def get_point_class(request):
     connection = get_db_connection()
     cursor = connection.cursor()
-    cursor.execute("SELECT MSV,absent,volunteer_class,point_class,point_project FROM point ORDER BY point_class DESC")
+    cursor.execute("SELECT point.MSV,attendances.first_name,attendances.last_name,point.absent,point.volunteer_class,point.point_class,point.point_project FROM point inner join attendances where point.msv = attendances.msv ORDER BY point_class DESC")
     result = cursor.fetchall()
     connection.commit()
     connection.close()
@@ -31,5 +31,18 @@ def get_point_class(request):
     return jsonify({
         "message": "Point fetched successfully!",
         "data": result_list
+    }), 200
+    
+def get_full_name(request):
+    msv = request.args.get("MSV")
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute("SELECT first_name,last_name from attendances where msv = ?",(msv,))
+    result = cursor.fetchone()
+    connection.commit()
+    connection.close()
+    return jsonify({
+        "message": "Name fetched successfully!",
+        "data": result[0] +" "+ result[1]
     }), 200
 

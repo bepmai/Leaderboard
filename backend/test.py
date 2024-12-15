@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit, join_room, leave_room
 
-app = Flask(__name__)
+app = Flask(__name__,template_folder="templates1")
 app.config['SECRET_KEY'] = 'your_secret_key'
-socketio = SocketIO(app)
+socketio = SocketIO(app,cors_allowed_origins="*")
 
 # Lưu trữ thông tin người dùng và phòng của họ
 users_rooms = {}
@@ -12,6 +12,9 @@ users_rooms = {}
 @socketio.on('connect')
 def handle_connect():
     print(f"Client connected: {request.sid}")
+@socketio.on('disconnect')
+def handle_disconnect():
+    print(f"Client disconnect: {request.sid}")
 
 # Khi người dùng gửi tin nhắn
 @socketio.on('send_message')
@@ -61,4 +64,4 @@ def index():
     return render_template('index.html')  # Giao diện web
 
 if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+    socketio.run(app, host='0.0.0.0', port=4000, debug=True)

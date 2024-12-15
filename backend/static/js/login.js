@@ -28,7 +28,7 @@ async function login(event) {
             });
             if(res.ok){
                 if(getCookie("role")=="admin"){
-                    window.location.href="dashboard"
+                    window.location.href="dashboarduser"
                 }
                 else{
                     window.location.href="dashboarduser"

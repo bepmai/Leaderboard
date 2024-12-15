@@ -1,21 +1,36 @@
-// if(getCookie('role')!="admin"){
-//   window.location.href="dashboarduser"
-// }
+if (getCookie('token') == null) {
+  window.location.href = "/"
+}
+if (getCookie('role') != "admin") {
+  window.location.href = "dashboarduser"
+}
+var allsv;
 const msv = getCookie('msv');
+const socket = io();
+
+function joinRoom() {
+  if (msv) {
+    socket.emit('join', { 'msv': msv });
+  }
+}
+
+joinRoom();
+
+
 async function fetchDashboardInfo() {
   try {
     const token = getCookie("token");
 
     if (!token) {
-        console.error("Token không tồn tại trong cookie!");
-        return;
+      console.error("Token không tồn tại trong cookie!");
+      return;
     }
     const response = await fetch(`${domain}/api/dashboard/dashboard_info_admin`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials:'include'
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
     });
 
     if (!response.ok) {
@@ -39,8 +54,8 @@ document.addEventListener("DOMContentLoaded", fetchDashboardInfo);
 
 function checkLoginStatus() {
   const msv = getCookie('msv');
-  if(!msv){
-    window.location.href="sign-in.html"
+  if (!msv) {
+    window.location.href = "sign-in.html"
   }
 }
 
@@ -68,13 +83,12 @@ const pieData = {
   labels: ["Đi học", "Nghỉ học"],
   datasets: [
     {
-      data: [85, 15], // Tỷ lệ %
+      data: [80, 20], // Tỷ lệ % ban đầu
       backgroundColor: ["#3498db", "#e74c3c"], // Màu sắc
     },
   ],
 };
 
-// Pie chart configuration
 const pieConfig = {
   type: "pie",
   data: pieData,
@@ -110,9 +124,45 @@ const pieConfig = {
   plugins: [ChartDataLabels], // Kích hoạt plugin
 };
 
-// Render pie chart
+const pieGetData = async () => {
+  try {
+    const response = await fetch(`${domain}/api/dashboard/chart/absent`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+    });
+
+    const absentData = await response.json();
+    const absentPercent = absentData.data[0] / (absentData.data[1] * 15 / 100);
+    const attendancePercent = (15 * absentData.data[1] - absentData.data[0]) / (absentData.data[1] * 15 / 100);
+
+    allsv = absentData.data[1]
+    // Làm tròn giá trị
+    const roundedAbsentPercent = Math.round(absentPercent * 100) / 100;
+    const roundedAttendancePercent = Math.round(attendancePercent * 100) / 100;
+
+    // Cập nhật dữ liệu
+    const data = [roundedAttendancePercent, roundedAbsentPercent];
+    pieConfig.data.datasets[0].data = data;
+
+    if (chartInstance) {
+      chartInstance.update();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Tạo biểu đồ khi trang được tải
 const ctx = document.getElementById("pieChart").getContext("2d");
-new Chart(ctx, pieConfig);
+const chartInstance = new Chart(ctx, pieConfig);
+
+
+
+// Render pie chart
+
 
 const lineData = {
   labels: ["11/11", "15/11", "19/11", "22/11", "26/11", "29/11", "3/12", "6/12", "10/12", "0/12", "0/12", "0/12", "0/12", "0/12", "0/12"], // Ngày
@@ -157,10 +207,42 @@ const lineConfig = {
 };
 
 // Render line chart
-new Chart(document.getElementById("lineChart"), lineConfig);
+const lineChartInstance = new Chart(document.getElementById("lineChart"), lineConfig);
+
+const lineGetData = async () => {
+  try {
+    const listadsent = [];
+    const listatten = [];
+    const requests = [];
+    for (let i = 1; i <= 15; i++) {
+      const request = await fetch(`${domain}/api/dashboard/chart/absent/${i}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      });
+      requests.push(request);
+    }
+    const responses = await Promise.all(requests);
+    const dataList = await Promise.all(responses.map(response => response.json()));
+    for (let i = 0; i < dataList.length; i++) {
+      listadsent.push(dataList[i].data[0])
+      listatten.push(dataList[i].data[1])
+    }
+    lineData.datasets[0].data = listatten;
+    lineData.datasets[1].data = listadsent;
+    if (lineChartInstance) {
+      lineChartInstance.update();
+    }
+  }
+  catch (error) {
+    console.log(error)
+  }
+}
 // Biểu đồ đường: Số lần phát biểu lớp
 const ctxParticipation = document.getElementById('chartParticipation').getContext('2d');
-new Chart(ctxParticipation, {
+const chartParticipationInstance = new Chart(ctxParticipation, {
   type: 'line',
   data: {
     labels: ["11/11", "15/11", "19/11", "22/11", "26/11", "29/11", "3/12", "6/12", "10/12", "0/12", "0/12", "0/12", "0/12", "0/12", "0/12"], // Ngày
@@ -221,13 +303,40 @@ new Chart(ctxParticipation, {
     },
   },
 });
+const partyGetData = async () => {
+  try {
+    const liststated = [];
+    const requests = [];
+    for (let i = 1; i <= 15; i++) {
+      const request = await fetch(`${domain}/api/dashboard/chart/stated/${i}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      });
+      requests.push(request);
+    }
+    const responses = await Promise.all(requests);
+    const dataList = await Promise.all(responses.map(response => response.json()));
+    for (let i = 0; i < dataList.length; i++) {
+      liststated.push(dataList[i].data[0])
+    }
+    chartParticipationInstance.data.datasets[0].data = liststated;
+    if (chartParticipationInstance) {
+      chartParticipationInstance.update();
+    }
+  }
+  catch (error) {
+    console.log(error)
+  }
+}
 
 // Biểu đồ đường: Số lần phát biểu -cụm
 const ctxParticipationCluster = document
   .getElementById('chartParticipationCluster')
   .getContext('2d');
-
-new Chart(ctxParticipationCluster, {
+const charClusterState = new Chart(ctxParticipationCluster, {
   type: 'line',
   data: {
     labels: ['Đức Anh', 'Bách', 'Đạo', 'Dũng', 'Giang', 'Hậu', 'Hiếu', 'Hùng', 'Hường', 'Lê', 'Mai'],
@@ -271,6 +380,45 @@ new Chart(ctxParticipationCluster, {
     },
   },
 });
-
+const clusterGetData = async () => {
+  try {
+    const std = await fetch(`${domain}/api/dashboard/chart/namestd_of_group`);
+    const stdData = await std.json();
+    const msv = stdData.data[0];
+    const name = stdData.data[1];
+    charClusterState.data.labels = name;
+    const requests = [];
+    for (let i = 0; i < msv.length; i++) {
+      const request = await fetch(`${domain}/api/dashboard/chart/stated/group/${msv[i]}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      });
+      requests.push(request);
+    }
+    const responses = await Promise.all(requests);
+    const dataList = await Promise.all(responses.map(response => response.json()));
+    const data = []
+    for (let i = 0; i < dataList.length; i++) {
+      data.push(dataList[i].data)
+    }
+    charClusterState.data.datasets[0].data = data;
+    if (charClusterState) {
+      charClusterState.update()
+    }
+  }
+  catch (error) {
+    console.log(error)
+  }
+}
+socket.on('receive_data', function (data) {
+  fetchDashboardInfo();
+  pieGetData();
+  lineGetData();
+  partyGetData();
+  clusterGetData();
+});
 
 

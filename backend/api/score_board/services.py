@@ -3,7 +3,7 @@ from flask import jsonify
 import sqlite3
 import requests
 
-score_board_URL = "https://sheetdb.io/api/v1/fjr4idd3v1u8z"
+score_board_URL = "https://sheetdb.io/api/v1/hxr0hvr4g1ftk"
 
 def get_db_connection():
     connection = sqlite3.connect('./database/database.db')
@@ -75,9 +75,9 @@ def get_score_board_users(request):
             connection.close()
 
             return jsonify({
-            "message": "Score board fetched successfully!",
-            "data": student_data
-        }), 200
+                "message": "Score board fetched successfully!",
+                "data": student_data
+            }), 200
         else:
             return jsonify({"message": f"Error occurred: Không tìm thấy dữ liệu"}), 500
     else:
