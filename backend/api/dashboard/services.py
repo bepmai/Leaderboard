@@ -4,8 +4,8 @@ import sqlite3
 import requests
 from api.attendance.services import update_attendace_table
 
-score_board_URL = "https://sheetdb.io/api/v1/fjr4idd3v1u8z"
-attendance_URL = "https://sheetdb.io/api/v1/ue2v47krv8ovs"
+score_board_URL = "https://sheetdb.io/api/v1/hxr0hvr4g1ftk"
+attendance_URL = "https://sheetdb.io/api/v1/ki61n94i86kj3"
 
 def get_db_connection():
     connection = sqlite3.connect('./database/database.db')
