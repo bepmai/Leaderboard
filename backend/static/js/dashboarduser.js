@@ -43,8 +43,8 @@ async function fetchDashboardUsersInfo() {
 
     const data = await response.json();
 
-    document.getElementById("number_of_school_attendance").textContent = data.number_of_school_attendance + " người" || "N/A";
-    document.getElementById("number_of_break").textContent = data.number_of_break + " người" || "N/A";
+    document.getElementById("number_of_school_attendance").textContent = data.number_of_school_attendance + " buổi" || "N/A";
+    document.getElementById("number_of_break").textContent = data.number_of_break + " buổi" || "N/A";
     document.getElementById("Number_of_speeches_cluster").textContent = data.Number_of_speeches_cluster + " lần" || "N/A";
     document.getElementById("rank").textContent = "Thứ " + data.rank || "N/A";
 

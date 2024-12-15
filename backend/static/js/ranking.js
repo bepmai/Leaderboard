@@ -61,10 +61,10 @@ const getDataRanking = async () => {
             attendanceCell.textContent = 15 - member.absent;
 
             const speechScoreCell = document.createElement('td');
-            speechScoreCell.textContent = member.point_class;
+            speechScoreCell.textContent = member.volunteer_class;
 
             const projectScoreCell = document.createElement('td');
-            projectScoreCell.textContent = member.volunteer_class;
+            projectScoreCell.textContent = member.project_class;
 
             const totalScoreCell = document.createElement('td');
             totalScoreCell.textContent = member.point_class;
