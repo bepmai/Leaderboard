@@ -3,7 +3,7 @@ from flask import jsonify
 import sqlite3
 import requests
 
-score_board_URL = "https://sheetdb.io/api/v1/fjr4idd3v1u8z"
+score_board_URL = "https://sheetdb.io/api/v1/hxr0hvr4g1ftk"
 
 def get_db_connection():
     connection = sqlite3.connect('./database/database.db')
