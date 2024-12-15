@@ -64,7 +64,7 @@ const getDataRanking = async () => {
             speechScoreCell.textContent = member.volunteer_class;
 
             const projectScoreCell = document.createElement('td');
-            projectScoreCell.textContent = member.project_class;
+            projectScoreCell.textContent = member.point_project;
 
             const totalScoreCell = document.createElement('td');
             totalScoreCell.textContent = member.point_class;
