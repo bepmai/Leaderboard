@@ -16,8 +16,8 @@ def is_request_from_ngrok():
         return ".localhost"
     return ".ngrok-free.app"
 
-domain=".localhost"
-# domain="secure-koi-wholly.ngrok-free.app"
+# domain=".localhost"
+domain="secure-koi-wholly.ngrok-free.app"
 
 def get_db_connection():
     connection = sqlite3.connect('./database/database.db')
