@@ -78,21 +78,33 @@ def login(request):
             return resp
 
         except requests.RequestException:
-            cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
-            user = cursor.fetchone()
-
-            if user and check_password_hash(user["password"], password):
-                query = "UPDATE users SET state = ? WHERE username = ?"
-                cursor.execute(query, ("online", username))
-                connection.commit()
-                resp = make_response(jsonify({"message": "Offline login successful!",
-                    "username": username,
-                    "role": user["role"]}))
-                expires = datetime.utcnow() + timedelta(seconds=86400)
-                resp.set_cookie('token', username, httponly=False,samesite='None',secure=True,path='/',domain=domain)
-                resp.set_cookie('msv', username, httponly=False,samesite='None',secure=True,path='/',domain=domain)
-                return resp
-            else:
+            try:
+                cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
+                user = cursor.fetchone()
+                
+                if user and check_password_hash(user["password"], password):
+                    query = "UPDATE users SET state = ? WHERE username = ?"
+                    cursor.execute(query, ("online", username))
+                    connection.commit()
+                    resp = make_response(jsonify({"message": "Offline login successful!",
+                        "username": username,
+                        "role": user["role"]}))
+                    expires = datetime.utcnow() + timedelta(seconds=86400)
+                    resp.set_cookie('token', username, httponly=False,samesite='None',secure=True,path='/',domain=domain)
+                    resp.set_cookie('msv', username, httponly=False,samesite='None',secure=True,path='/',domain=domain)
+                    return resp
+                else:
+                    query = "INSERT INTO users (username, password, access_token, role, state) VALUES (?, ?, ?, ?, ?)"
+                    cursor.execute(query, (username, hashed_password, username, role, state))
+                    connection.commit()
+                    resp = make_response(jsonify({"message": "Login successful!",
+                        "username": username,
+                        "role": role}))
+                    expires = datetime.utcnow() + timedelta(seconds=86400)
+                    resp.set_cookie('token', username, httponly=False,samesite='None',secure=True,path='/',domain=domain)
+                    resp.set_cookie('msv', username, httponly=False,samesite='None',secure=True,path='/',domain=domain)
+                    return resp
+            except:
                 return jsonify({"message": "Invalid credentials!"}), 400
 
     except sqlite3.Error as e:
